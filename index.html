@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>A take on particle effects</title>
+    <meta name="viewport" content="width=device-width" />
+
+    <link rel="stylesheet" href="css/site.css" />
+</head>
+<body>
+
+    <div class="grid-page">
+
+        <div class="page-header">
+            <h1>A take on particle effects</h1>
+            <p>by Tobiasz Chyra</p>
+        </div>
+
+        <div class="page-sidebar">
+
+            <h2>Table of contents</h2>
+            <ol class="toc">
+                <li data-target="intro">What is this about?</li>
+                <li data-target="structure">Project structure</li>
+                <li data-target="examples">
+                    Examples
+                    <button class="action btn-icon">
+                        <img class="icon" src="img/icons/chevron-down.svg" />
+                    </button>
+                </li>
+                <ol>
+                    <li>
+                        <a href="/examples/snow.html">
+                            Snow
+                            <img class="icon action" src="img/icons/arrow-right.svg" />
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/examples/rain.html">
+                            Rain
+                            <img class="icon action" src="img/icons/arrow-right.svg" />
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/examples/volcano.html">
+                            Volcano
+                            <img class="icon action" src="img/icons/arrow-right.svg" />
+                        </a>
+                    </li>
+                </ol>
+                <li data-target="download">Downloads</li>
+            </ol>
+
+        </div>
+
+        <div class="page-content">
+            <section data-name="intro">
+                <h2>What is this about?</h2>
+                <p>
+                    This project is my own take on creating particle effects.
+                    Some examples of particles include rain, snow, sand, electrons as well as atoms, confetti and volcano eruption debris, but gasses or fluids could also be approximated by particles.
+                </p>
+                <p>
+                    Particle effects are a computer simulation of particles aimed, usually, at making something look beliveable and/or nice.
+                    They are mainly used in videogames and movies, to create sparks, magic effects, dust raising after a player runs across it, and many more similar effects.
+                </p>
+            </section>
+
+            <section data-name="structure">
+                <h2>Project structure</h2>
+                <p>
+                    I use the HTML5 <code>&lt;canvas&gt;</code> element to draw particles. Every particle effect uses two Javascript files, one of them is shared, while the other is specific to the effect.
+                </p>
+
+                <p>
+                    The shared file is responsible for setting up things happening behind the scenes.
+                    It initializes the canvas, requests animation frames to advance the animation and invokes functions defined in the second script.
+                </p>
+
+                <p>
+                    The second script is responsible for handling the specific particle effect it is meant to create. It handles particle creation, their interactions with the environment, updates their positions and draws frames. Any additional systems, for example a wind system for the rain and snow effects also go in this second file.
+                </p>
+
+            </section>
+
+            <section data-name="examples">
+                <h2>Examples</h2>
+                <p>Each example has its own dedicated page, explaining how it works. Have at it!</p>
+
+                <div class="grid-3 paragraph">
+                    <a href="examples/snow.html" class="example-container">
+                        <label>Snow</label>
+                        <canvas id="snow_canvas" width="10" height="10"></canvas>
+                    </a>
+                    <a href="examples/rain.html" class="example-container">
+                        <label>Rain</label>
+                        <canvas id="rain_canvas" width="10" height="10"></canvas>
+                    </a>
+                    <a href="examples/volcano.html" class="example-container">
+                        <label>Volcano</label>
+                        <canvas id="volcano_canvas" width="10" height="10"></canvas>
+                    </a>
+                </div>
+
+            </section>
+
+            <section data-name="download">
+                <h2>Downloads</h2>
+                <p>
+                    You can download the entire project, or just the shared js file.
+                </p>
+                <p class="text-center">
+                    <a class="btn">
+                        Download project (.zip)
+                        <img class="icon right" src="img/icons/tray-arrow-down.svg" />
+                    </a>
+                    <a class="btn">
+                        Download shared script (.js)
+                        <img class="icon right" src="img/icons/tray-arrow-down.svg" />
+                    </a>
+                </p>
+            </section>
+
+
+        </div>
+
+    </div>
+
+    <script></script>
+
+</body>
+</html>
