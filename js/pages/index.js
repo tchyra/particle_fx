@@ -11,6 +11,7 @@ let els = {
 document.addEventListener('DOMContentLoaded', () => {
     initEls(els);
     initTOC();
+    initExampleFx();
 });
 
 function initTOC() {
@@ -36,9 +37,29 @@ function initTOC() {
             let top = document.scrollingElement.scrollTop + liTargetBCR.top - scrollToSpacingTop;
 
             document.scrollingElement.scrollTo({ top, behavior: 'smooth' });
-
         });
 
     });
 
+}
+
+function initExampleFx() {
+
+    let params = SnowParticleEffect.getDefaultSimulationParams();
+
+    params.wind.printStateChanges = false;
+    params.particles.count = 8;
+    params.particles.sizeRange = new Range(2, 4);
+    params.particles.vyRange = new Range(69, 420);
+    params.wind.vxRange = new Range(50, 320);
+
+    let snowFx = new SnowParticleEffect('#cnv_snow', params);
+    console.log('initialized snow', snowFx);
+
+
+    let snowFx2 = new SnowParticleEffect('#cnv_rain', params);
+    console.log('initialized snow', snowFx);
+
+    let snowFx3 = new SnowParticleEffect('#cnv_volcano', params);
+    console.log('initialized snow', snowFx);
 }

@@ -12,22 +12,13 @@ class ParticleEnv {
         return null;
     }
 
-    constructor(targetCnv, initCallback, frameCallback, options) {
+    constructor(targetCnv, options) {
 
         this.cnv = ParticleEnv.getEl(targetCnv);
         if (!this.cnv)
             throw 'target canvas must be an element or a selector.';
 
-        if (typeof initCallback !== 'function')
-            throw 'Init callback must be a function.';
-        if (typeof frameCallback !== 'function')
-            throw 'Frame callback must be a function.';
-
-        this.initCallback = initCallback;
-        this.frameCallback = frameCallback;
-
         this.options = options || {};
-
         this.parent = ParticleEnv.getEl(this.options.parent) || this.cnv.parentElement;
 
         this.ctx = this.cnv.getContext('2d');
@@ -36,38 +27,48 @@ class ParticleEnv {
         let resizeCallback = ev => this.updateCanvasSize(ev);
         window.addEventListener('resize', resizeCallback);
 
-
-        initCallback(this.cnv, this.ctx, this.cnvw, this.cnvh);
-
         this.frameNo = 0;
         this.prevFrameTimestamp = Date.now();
-        this.reqNextFrame();
     }
 
     updateCanvasSize() {
         let prevW = this.cnvw;
         let prevH = this.cnvh;
-        this.cnvw = cnv.width = this.parent.clientWidth;
-        this.cnvh = cnv.height = this.parent.clientHeight;
+        this.cnvw = this.cnv.width = this.parent.clientWidth;
+        this.cnvh = this.cnv.height = this.parent.clientHeight;
 
         if (typeof this.options.resize === 'function' && (prevW !== this.cnvw || prevH !== this.cnvh))
-            this.options.resize(this.cnvw, this.cnvh);
+            this.resize();
     }
 
-    reqNextFrame() {
+    _reqNextFrame() {
         this.frameID = window.requestAnimationFrame(() => {
 
             // calc new deltatime
             let timestamp = Date.now();
-            this.deltaTime = timestamp - this.prevFrameTimestamp;
-            this.deltaTimeS = this.deltaTime / 1000;
+            let deltaTime = timestamp - this.prevFrameTimestamp;
+            let deltaTimeS = deltaTime / 1000;
 
-            this.frameCallback(this.cnv, this.ctx, this.deltaTime, this.deltaTimeS, this.frameNo, this.cnvw, this.cnvh);
+            this.frame(deltaTime, deltaTimeS, this.frameNo);
 
             this.prevFrameTimestamp = timestamp;
             this.frameNo++;
 
-            this.reqNextFrame();
+            this._reqNextFrame();
         });
+    }
+
+    start() {
+        throw new Error(this.getNotImplementedExceptionText('start'));
+    }
+
+    frame(deltaTime, deltaTimeS, frameNo) {
+        throw new Error(this.getNotImplementedExceptionText('frame'));
+    }
+
+    resize() { }
+
+    getNotImplementedExceptionText(funName) {
+        return `abstract function ${funName}() must be implemented in classes deriving from ParticleEnv.`
     }
 }
