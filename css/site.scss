@@ -17,11 +17,15 @@ $font-size-heading: 1.4rem;
 $font-size-body: 1rem;
 $font-size-sec: 0.8rem;
 
-$grid-row-spacing: 16px;
-$grid-col-spacing: 48px;
-$page-sidebar-max-width: 360px;
+$page-grid-row-spacing: 32px;
+$page-grid-col-spacing: 48px;
+$page-vert-spacing: 80px;
+
+$page-sidebar-max-width: 300px;
 $page-content-max-width: 640px;
-$page-max-width: $page-sidebar-max-width + $grid-col-spacing + $page-content-max-width;
+$page-max-width: $page-sidebar-max-width + $page-grid-col-spacing + $page-content-max-width;
+
+$page-header-height: 150px;
 
 $section-spacing: 64px;
 
@@ -31,6 +35,11 @@ $btn-icon-size: 24px;
 $icon-size: 20px;
 
 $toc-li-height: 36px;
+
+
+//
+// DEFAULT ELEMENT STYLING
+//
 
 html {
     background-color: $c-bg;
@@ -49,55 +58,6 @@ body {
     font-size: $font-size-body;
 }
 
-/* grid setup */
-.grid-page {
-    display: grid;
-    grid-column-gap: $grid-col-spacing;
-    grid-row-gap: $grid-row-spacing;
-    grid-template-areas: 'header header header' 'sidebar content content';
-    max-width: $page-max-width;
-    margin: auto;
-    padding-top: 80px;
-    padding-bottom: 80px;
-
-    > .page-header {
-        grid-area: header;
-    }
-
-    > .page-sidebar {
-        grid-area: sidebar;
-        max-width: $page-sidebar-max-width;
-    }
-
-    > .page-content {
-        grid-area: content;
-        max-width: $page-content-max-width;
-    }
-}
-
-.grid-3 {
-    display: grid;
-    grid-template-columns: auto auto auto;
-    grid-column-gap: 32px;
-}
-
-
-/* page elements */
-
-.page-header {
-    text-align: center;
-    border-bottom: 1px solid $c-border-sec;
-    padding-bottom: 16px;
-
-    > h1 {
-        margin-bottom: 8px;
-    }
-
-    > p {
-        margin-top: 0;
-        color: $c-text-lght-tet;
-    }
-}
 
 h1 {
     /* jumbo heading on top of entire page */
@@ -111,6 +71,7 @@ h2 {
     /* section headers */
     font-size: $font-size-heading;
     color: $c-text-lght-pri;
+    margin-top: 0;
 }
 
 p {
@@ -122,16 +83,7 @@ p + p, p + .paragraph, .paragraph + p, .paragraph + .paragraph {
     margin-top: 32px;
 }
 
-.icon {
-    display: inline-block;
-    filter: invert(1);
-    width: $icon-size;
-    height: $icon-size;
-    opacity: 0.6;
-}
-
 section {
-    /* sections */
     + section {
         margin-top: $section-spacing;
     }
@@ -145,10 +97,111 @@ code {
     border: 1px solid $c-border-sec;
 }
 
+// img icon
+.icon {
+    display: inline-block;
+    filter: invert(1);
+    width: $icon-size;
+    height: $icon-size;
+    opacity: 0.6;
+}
+
+
+//
+// SPECIFIC PAGE PARTS
+//
+
+.page-grid {
+    display: grid;
+    grid-column-gap: $page-grid-col-spacing;
+    grid-row-gap: $page-grid-row-spacing;
+    grid-template-columns: $page-sidebar-max-width $page-content-max-width;
+    grid-template-areas: 'header header' 'sidebar content';
+    max-width: $page-max-width;
+    margin: auto;
+    padding-top: $page-vert-spacing;
+    padding-bottom: $page-vert-spacing;
+
+    > .page-header {
+        grid-area: header;
+    }
+
+    > .page-sidebar {
+        grid-area: sidebar;
+    }
+
+    > .page-content {
+        grid-area: content;
+    }
+}
+
+.page-header {
+    text-align: center;
+    border-bottom: 1px solid $c-border-sec;
+    padding-bottom: 16px;
+    box-sizing: border-box;
+    height: $page-header-height;
+
+    > h1 {
+        margin-bottom: 8px;
+    }
+
+    > p {
+        margin-top: 0;
+        color: $c-text-lght-tet;
+    }
+}
+
+.page-sidebar {
+    width: $page-sidebar-max-width;
+
+    > section {
+        position: sticky;
+        top: $page-grid-row-spacing;
+    }
+}
+
+.page-content {
+    max-width: $page-content-max-width;
+}
+
+
+//
+// PARTICE FX EXAMPLES
+//
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-column-gap: 32px;
+}
+
+.example-container {
+    position: relative;
+    border: 1px solid $c-border-pri;
+    height: 150px;
+
+    > label {
+        position: absolute;
+        bottom: 8px;
+        width: 100%;
+        text-align: center;
+        font-size: $font-size-sec;
+        font-weight: bold;
+        color: $c-text-lght-pri;
+    }
+}
+
+
+//
+// TABLE OF CONTENTS
+//
+
 .toc {
     list-style: none;
     counter-reset: toc;
     padding-left: 0;
+    user-select: none;
 
     li {
         color: $c-text-lght-pri;
@@ -207,21 +260,10 @@ code {
     }
 }
 
-.example-container {
-    position: relative;
-    border: 1px solid $c-border-pri;
-    height: 150px;
 
-    > label {
-        position: absolute;
-        bottom: 8px;
-        width: 100%;
-        text-align: center;
-        font-size: $font-size-sec;
-        font-weight: bold;
-        color: $c-text-lght-pri;
-    }
-}
+//
+// BUTTONS
+//
 
 .btn {
     display: inline-block;
@@ -260,6 +302,19 @@ code {
     .icon {
         vertical-align: middle;
     }
+}
+
+
+//
+// MISC CLASSES
+//
+
+canvas.fill-parent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
 @mixin text-align($name) {
