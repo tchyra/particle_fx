@@ -1,6 +1,7 @@
-﻿html {
+﻿@charset "UTF-8";
+html {
   background-color: #101010;
-  color: rgba(255, 255, 255, 0.6); }
+  color: rgba(255, 255, 255, 0.65); }
 
 html, body {
   padding: 0;
@@ -37,10 +38,11 @@ section + section {
 
 code {
   display: inline-block;
-  padding: 2px;
+  padding: 2px 4px;
   vertical-align: bottom;
-  margin: 0 4px;
-  border: 1px solid rgba(255, 255, 255, 0.15); }
+  margin: 0 2px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px; }
 
 .icon {
   display: inline-block;
@@ -87,15 +89,29 @@ code {
 .page-content {
   max-width: 640px; }
 
+.copyright-footer {
+  margin-top: 64px;
+  color: rgba(255, 255, 255, 0.4);
+  text-align: center;
+  font-size: 0.6rem; }
+
 .grid-3 {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
   grid-column-gap: 32px; }
 
 .example-container {
+  display: inline-block;
   position: relative;
   border: 1px solid rgba(255, 255, 255, 0.9);
-  height: 200px; }
+  height: 200px;
+  transition: transform ease-in-out 0.1s, background-color linear 0.1s; }
+  .example-container:hover {
+    transform: scale(1.02);
+    /*background-color: rgba(#fff, 0.05);*/ }
+  .example-container:active {
+    transform: scale(0.98);
+    background-color: #000; }
   .example-container > label {
     position: absolute;
     bottom: 8px;
@@ -103,7 +119,8 @@ code {
     text-align: center;
     font-size: 0.8rem;
     font-weight: bold;
-    color: rgba(255, 255, 255, 0.9); }
+    color: rgba(255, 255, 255, 0.9);
+    cursor: pointer; }
 
 .toc {
   list-style: none;
@@ -116,21 +133,38 @@ code {
     cursor: pointer;
     position: relative;
     min-height: 36px;
-    box-sizing: border-box; }
+    box-sizing: border-box;
+    overflow: hidden;
+    border-radius: 4px; }
     .toc li:before {
       content: counter(toc) ".";
       counter-increment: toc;
       display: inline-block;
       width: 24px;
       color: rgba(255, 255, 255, 0.4); }
-    .toc li:hover {
-      background-color: rgba(255, 255, 255, 0.1); }
+    .toc li:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(255, 255, 255, 0.08);
+      transform-origin: left;
+      transform: scaleX(0);
+      opacity: 0;
+      transition: transform ease-in 0.2s, opacity linear 0.6s; }
+    .toc li:hover:after {
+      transform: scaleX(1);
+      opacity: 1;
+      transition: transform ease-out 0.2s, opacity linear 0.05s; }
     .toc li > a {
+      display: inline-block;
       color: rgba(255, 255, 255, 0.9);
       text-decoration: none; }
     .toc li .action {
       position: absolute;
-      right: 16px;
+      right: 12px;
       vertical-align: middle; }
       .toc li .action.btn-icon {
         top: 6px; }
@@ -148,18 +182,29 @@ code {
 
 .btn {
   display: inline-block;
-  height: 20px;
-  line-height: 20px;
-  padding: 8px 24px;
+  box-sizing: border-box;
+  height: 44px;
+  line-height: 40px;
+  padding: 0 32px;
   color: rgba(255, 255, 255, 0.9);
   border-radius: 8px;
   border: 2px solid rgba(255, 255, 255, 0.9);
   margin: 0 8px;
   cursor: pointer;
-  font-weight: bold; }
+  font-weight: bold;
+  user-select: none;
+  transition: transform ease-in-out 0.1s, background-color linear 0.1s; }
+  .btn:hover {
+    transform: scale(1.02);
+    /*background-color: rgba(#fff, 0.05);*/ }
+  .btn:active {
+    transform: scale(0.98);
+    background-color: #000; }
   .btn .icon {
-    vertical-align: middle;
     margin-right: 8px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    vertical-align: top;
     opacity: 0.9; }
     .btn .icon.right {
       margin-left: 8px;
@@ -183,6 +228,11 @@ canvas.fill-parent {
   left: 0;
   right: 0;
   bottom: 0; }
+
+.bullet {
+  padding: 0 4px; }
+  .bullet:after {
+    content: "•"; }
 
 .text-left {
   text-align: left; }

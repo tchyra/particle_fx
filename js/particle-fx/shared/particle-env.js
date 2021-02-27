@@ -31,6 +31,34 @@ class ParticleEnv {
         this.prevFrameTimestamp = Date.now();
     }
 
+    static mergeParams(defaultParams, passedParams) {
+
+        if (!passedParams) return defaultParams;
+
+        let resultParams = {};
+
+        for (var paramName in defaultParams) {
+
+            if (paramName in passedParams) {
+
+                // preference was changed from default
+                if (typeof defaultParams[paramName] === 'object'
+                    && !(defaultParams[paramName] instanceof Range)) {
+                    // go through object properties
+                    resultParams[paramName] = ParticleEnv.mergeParams(defaultParams[paramName], passedParams[paramName]);
+                } else {
+                    resultParams[paramName] = passedParams[paramName];
+                }
+
+            } else {
+                // preference has not been changed, set to default
+                resultParams[paramName] = defaultParams[paramName];
+            }
+        }
+
+        return resultParams;
+    }
+
     updateCanvasSize() {
         let prevW = this.cnvw;
         let prevH = this.cnvh;

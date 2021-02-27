@@ -23,8 +23,9 @@ class SnowParticleEffect extends ParticleEnv {
     constructor(targetCnv, params) {
         super(targetCnv);
 
-        // run this before super because init() needs those properties
-        this.params = params || SnowParticleEffect.getDefaultSimulationParams();
+        this.params = ParticleEnv.mergeParams(SnowParticleEffect.getDefaultSimulationParams(), params);
+
+        this.wind = new WindSystem(this.params.wind);
 
         this.start();
         this._reqNextFrame();
@@ -58,36 +59,6 @@ class SnowParticleEffect extends ParticleEnv {
         this.ctx.fillRect(p.x - p.size / 2, p.y - p.size / 2, p.size, p.size);
     }
 
-    _rollWind() {
-
-        let prevVx = this.wind ? this.wind.nextVx || 0 : 0;
-
-        this.wind = {
-            prevVx,
-            nextVx: this.params.wind.vxRange.roll(),
-            transitionDur: this.params.wind.transitionDurRange.roll(),
-            holdDur: this.params.wind.holdDurRange.roll(),
-            state: 't'
-        };
-
-        this.wind.currentVx = prevVx;
-
-        this.wind.remaining = this.wind.transitionDur;
-    }
-
-    _printWindState() {
-        if (!this.params.wind.printStateChanges) return;
-
-        // quick helper function for printing
-        let toFixedFloat = (f, n) => parseFloat(f.toFixed(n));
-
-        if (this.wind.state === 'h')
-            console.log('[WIND] hold', toFixedFloat(this.wind.currentVx, 2), this.wind.holdDur.toFixed(2) + 's');
-        else if (this.wind.state === 't')
-            console.log('[WIND] trns', toFixedFloat(this.wind.prevVx, 2), ' => ', toFixedFloat(this.wind.nextVx, 2), this.wind.transitionDur.toFixed(2) + 's');
-
-    }
-
     start() {
         this.particles = new Array(this.params.particles.count);
 
@@ -98,8 +69,7 @@ class SnowParticleEffect extends ParticleEnv {
         }
 
         // start the wind system
-        this._rollWind();
-        this._printWindState();
+        this.wind.start();
     }
 
     frame(deltaTime, deltaTimeS, frameNo) {
@@ -107,46 +77,8 @@ class SnowParticleEffect extends ParticleEnv {
         // skip the frame if more than 500ms elapsed since the last frame, the most likely cause of this is slowing animation framerate when the browser window is in the background.
         if (deltaTime > 500) return;
 
-        //
-        // WIND SYSTEM
-        //
-
-        // decrease remaining by deltaTime in seconds
-        this.wind.remaining -= deltaTimeS;
-
-        // check if the current wind phase should end
-        if (this.wind.remaining <= 0) {
-
-            if (this.wind.state == 't') {
-
-                // transition phase ended, start hold phase
-                this.wind.state = 'h';
-                this.wind.prevVx = this.wind.currentVx = this.wind.nextVx;
-                this.wind.remaining = this.wind.holdDur;
-
-                // print information about the new wind phase
-                this._printWindState();
-
-            } else {
-                // hold phase ended, start transiton phase
-                this._rollWind();
-                this._printWindState();
-            }
-        } else if (this.wind.state == 't') {
-
-            // windPrevVx    -> windNextVx
-            // windRemaining -> 0
-            // invert windRemaining so it goes from 0 -> windTransitionDur
-            let windVxRange = new Range(this.wind.prevVx, this.wind.nextVx);
-            let windDurRange = new Range(this.wind.transitionDur, 0);
-
-            this.wind.currentVx = windVxRange.lerp(windDurRange.getFraction(this.wind.remaining));
-            //this.wind.currentVx = (this.wind.nextVx - this.wind.prevVx) * (this.wind.transitionDur - this.wind.remaining) / this.wind.transitionDur + this.wind.prevVx;
-        }
-
-        //
-        // PARTICLES
-        //
+        // update the wind system
+        this.wind.frame(deltaTime, deltaTimeS, frameNo);
 
         this.ctx.clearRect(0, 0, this.cnvw, this.cnvh); // clear the canvas
 
@@ -159,8 +91,8 @@ class SnowParticleEffect extends ParticleEnv {
             p.y += p.vy * deltaTimeS;
 
             // particle vx is a function of wind vx and particle size
-            //p.vx = this.params.particles.windFactorRange.lerp(this.params.particles.sizeRange.getFraction(p.size));
-            p.vx = this.wind.currentVx * ((p.size - this.params.particles.sizeRange.min) / this.params.particles.sizeRange.span * this.params.particles.windFactorRange.max + this.params.particles.windFactorRange.min);
+            p.vx = this.wind.currentVx * this.params.particles.windFactorRange.lerp(this.params.particles.sizeRange.getFraction(p.size));
+            //p.vx = this.wind.currentVx * ((p.size - this.params.particles.sizeRange.min) / this.params.particles.sizeRange.span * this.params.particles.windFactorRange.max + this.params.particles.windFactorRange.min);
 
             // particle vx is a function of wind vx
             p.x += p.vx * deltaTimeS;

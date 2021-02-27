@@ -13,6 +13,10 @@ class Range {
         return Math.random() * this.span + this.min;
     }
 
+    rollInt() {
+        return Math.floor(this.roll());
+    }
+
     lerp(fraction) {
         return this.min + this.span * fraction;
     }

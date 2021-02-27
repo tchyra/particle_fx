@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initEls(els);
     initTOC();
     initExampleFx();
+
+    document.getElementById('current_year').innerText = new Date().getFullYear();
 });
 
 function initTOC() {
@@ -45,21 +47,38 @@ function initTOC() {
 
 function initExampleFx() {
 
-    let params = SnowParticleEffect.getDefaultSimulationParams();
+    let snowFx = new SnowParticleEffect('#cnv_snow', {
+        particles: {
+            count: 8,
+            sizeRange: new Range(2, 4),
+            vyRange: new Range(69, 420)
+        },
+        wind: {
+            vxRange: new Range(50, 320),
+            printStateChanges: false
+        }
+    });
 
-    params.wind.printStateChanges = false;
-    params.particles.count = 8;
-    params.particles.sizeRange = new Range(2, 4);
-    params.particles.vyRange = new Range(69, 420);
-    params.wind.vxRange = new Range(50, 320);
+    let rainfx = new RainParticleEffect('#cnv_rain', {
+        particles: {
+            count: 12,
+            sizeRange: new Range(1, 2),
+            length: 0.1,
+            vyRange: new Range(600, 1000),
+        },
+        wind: {
+            printStateChanges: false
+        }
+    });
 
-    let snowFx = new SnowParticleEffect('#cnv_snow', params);
-    console.log('initialized snow', snowFx);
-
-
-    let snowFx2 = new SnowParticleEffect('#cnv_rain', params);
-    console.log('initialized snow', snowFx);
-
-    let snowFx3 = new SnowParticleEffect('#cnv_volcano', params);
-    console.log('initialized snow', snowFx);
+    let volcanoFx = new VolcanoParticleEffect('#cnv_volcano', {
+        particles: {
+            maxCount: 20,
+            sizeRange: new Range(3, 5),
+            launchVyRange: new Range(200, 280),
+            launchVxRange: new Range(-50, 50)
+        },
+        gravityForce: 80,
+        spYFraction: 0.9
+    });
 }

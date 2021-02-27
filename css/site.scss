@@ -2,7 +2,7 @@
 $c-bg: #101010;
 
 $c-text-lght-pri: rgba(#fff, 0.9);
-$c-text-lght-sec: rgba(#fff, 0.6);
+$c-text-lght-sec: rgba(#fff, 0.65);
 $c-text-lght-tet: rgba(#fff, 0.4);
 
 $c-border-pri: rgba(#fff, 0.9);
@@ -16,6 +16,7 @@ $font-size-jumbo: 2.5rem;
 $font-size-heading: 1.4rem;
 $font-size-body: 1rem;
 $font-size-sec: 0.8rem;
+$font-size-tet: 0.6rem;
 
 $page-grid-row-spacing: 32px;
 $page-grid-col-spacing: 48px;
@@ -29,7 +30,8 @@ $page-header-height: 150px;
 
 $section-spacing: 64px;
 
-$btn-height: 20px;
+$btn-height: 40px;
+$btn-border-width: 2px;
 $btn-icon-size: 24px;
 
 $icon-size: 20px;
@@ -91,10 +93,11 @@ section {
 
 code {
     display: inline-block;
-    padding: 2px;
+    padding: 2px 4px;
     vertical-align: bottom;
-    margin: 0 4px;
+    margin: 0 2px;
     border: 1px solid $c-border-sec;
+    border-radius: 4px;
 }
 
 // img icon
@@ -165,6 +168,12 @@ code {
     max-width: $page-content-max-width;
 }
 
+.copyright-footer {
+    margin-top: 64px;
+    color: $c-text-lght-tet;
+    text-align: center;
+    font-size: $font-size-tet;
+}
 
 //
 // PARTICE FX EXAMPLES
@@ -177,9 +186,21 @@ code {
 }
 
 .example-container {
+    display: inline-block;
     position: relative;
     border: 1px solid $c-border-pri;
     height: 200px;
+    transition: transform ease-in-out 0.1s, background-color linear 0.1s;
+
+    &:hover {
+        transform: scale(1.02);
+        /*background-color: rgba(#fff, 0.05);*/
+    }
+
+    &:active {
+        transform: scale(0.98);
+        background-color: #000;
+    }
 
     > label {
         position: absolute;
@@ -189,6 +210,7 @@ code {
         font-size: $font-size-sec;
         font-weight: bold;
         color: $c-text-lght-pri;
+        cursor: pointer;
     }
 }
 
@@ -210,6 +232,8 @@ code {
         position: relative;
         min-height: 36px;
         box-sizing: border-box;
+        overflow: hidden;
+        border-radius: 4px;
 
         &:before {
             content: counter(toc)".";
@@ -219,18 +243,35 @@ code {
             color: $c-text-lght-tet;
         }
 
-        &:hover {
-            background-color: rgba(#fff, 0.1);
+        &:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(#fff, 0.08);
+            transform-origin: left;
+            transform: scaleX(0);
+            opacity: 0;
+            transition: transform ease-in 0.2s, opacity linear 0.6s;
+        }
+
+        &:hover:after {
+            transform: scaleX(1);
+            opacity: 1;
+            transition: transform ease-out 0.2s, opacity linear 0.05s;
         }
 
         > a {
+            display: inline-block;
             color: $c-text-lght-pri;
             text-decoration: none;
         }
 
         .action {
             position: absolute;
-            right: 16px;
+            right: 12px;
             vertical-align: middle;
 
             &.btn-icon {
@@ -266,20 +307,36 @@ code {
 //
 
 .btn {
+    $btn-actual-height: $btn-height + $btn-border-width * 2;
     display: inline-block;
-    height: $btn-height;
+    box-sizing: border-box;
+    height: $btn-actual-height;
     line-height: $btn-height;
-    padding: 8px 24px;
+    padding: 0 32px;
     color: $c-text-lght-pri;
     border-radius: 8px;
     border: 2px solid $c-border-pri;
     margin: 0 8px;
     cursor: pointer;
     font-weight: bold;
+    user-select: none;
+    transition: transform ease-in-out 0.1s, background-color linear 0.1s;
+
+    &:hover {
+        transform: scale(1.02);
+        /*background-color: rgba(#fff, 0.05);*/
+    }
+
+    &:active {
+        transform: scale(0.98);
+        background-color: #000;
+    }
 
     .icon {
-        vertical-align: middle;
         margin-right: 8px;
+        margin-top: ($btn-height - $icon-size) / 2;
+        margin-bottom: ($btn-height - $icon-size) / 2;
+        vertical-align: top;
         opacity: 0.9;
 
         &.right {
@@ -315,6 +372,14 @@ canvas.fill-parent {
     left: 0;
     right: 0;
     bottom: 0;
+}
+
+.bullet {
+    padding: 0 4px;
+
+    &:after {
+        content: "•";
+    }
 }
 
 @mixin text-align($name) {

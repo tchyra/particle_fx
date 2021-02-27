@@ -22,7 +22,6 @@
                 <h2>Table of contents</h2>
                 <ol class="toc">
                     <li data-target="intro">What is this about?</li>
-                    <li data-target="structure">Project structure</li>
                     <li data-target="examples">
                         Examples
                         <!--<button class="action btn-icon">
@@ -49,6 +48,7 @@
                             </a>
                         </li>
                     </ol>
+                    <li data-target="structure">Project structure</li>
                     <li data-target="download">Downloads</li>
                 </ol>
             </section>
@@ -56,6 +56,7 @@
         </div>
 
         <div class="page-content">
+
             <section data-name="intro">
                 <h2>What is this about?</h2>
                 <p>
@@ -68,26 +69,9 @@
                 </p>
             </section>
 
-            <section data-name="structure">
-                <h2>Project structure</h2>
-                <p>
-                    I use the HTML5 <code>&lt;canvas&gt;</code> element to draw particles. Every particle effect uses two Javascript files, one of them is shared, while the other is specific to the effect.
-                </p>
-
-                <p>
-                    The shared file is responsible for setting up things happening behind the scenes.
-                    It initializes the canvas, requests animation frames to advance the animation and invokes functions defined in the second script.
-                </p>
-
-                <p>
-                    The second script is responsible for handling the specific particle effect it is meant to create. It handles particle creation, their interactions with the environment, updates their positions and draws frames. Any additional systems, for example a wind system for the rain and snow effects also go in this second file.
-                </p>
-
-            </section>
-
             <section data-name="examples">
                 <h2>Examples</h2>
-                <p>Each example has its own dedicated page, explaining how it works. Have at it!</p>
+                <p>Each example has its own dedicated page, explaining how it works. Have fun!</p>
 
                 <div class="grid-3 paragraph">
                     <a href="examples/snow.html" class="example-container">
@@ -106,10 +90,28 @@
 
             </section>
 
+            <section data-name="structure">
+                <h2>Project structure</h2>
+                <p>
+                    Particles are drawn on HTML5 <code>&lt;canvas&gt;</code> elements using Javascript.
+                    Each particle effect is handled by a separate class that extends a shared, base <code>ParticleEnv</code> class.
+                </p>
+
+                <p>
+                    The code in the shared <code>ParticleEnv</code> class sets up the canvas, frames and updates the width and height of the canvas to match its container.
+                </p>
+
+                <p>
+                    The indivdual classes handle creating particles and updating them every frame. 
+                    Rain and snow, showcased above, also use a shared <code>WindSystem</code> class that handles wind direction and strength.
+                </p>
+
+            </section>
+
             <section data-name="download">
                 <h2>Downloads</h2>
                 <p>
-                    You can download the entire project, or just the shared js file.
+                    You can download the entire project or visit it's associated github repo.
                 </p>
                 <p class="text-center">
                     <a class="btn">
@@ -117,20 +119,30 @@
                         <img class="icon right" src="img/icons/tray-arrow-down.svg" />
                     </a>
                     <a class="btn">
-                        Download shared script (.js)
-                        <img class="icon right" src="img/icons/tray-arrow-down.svg" />
+                        Visit on GitHub
+                        <img class="icon right" src="img/icons/github.svg" />
                     </a>
                 </p>
             </section>
 
+            <div class="copyright-footer">
+                Copyright <span id="current_year">2021</span>
+                <span class="bullet"></span>
+                Tobiasz Chyra
+            </div>
 
         </div>
 
     </div>
 
-    <script src="/js/particle_fx/range.js"></script>
-    <script src="/js/particle_fx/particle-env.js"></script>
-    <script src="/js/particle_fx/snow-particle-effect.js"></script>
+    <script src="/js/particle-fx/shared/range.js"></script>
+    <script src="/js/particle-fx/shared/color-range.js"></script>
+    <script src="/js/particle-fx/shared/particle-env.js"></script>
+    <script src="/js/particle-fx/shared/wind-system.js"></script>
+
+    <script src="/js/particle-fx/snow-particle-effect.js"></script>
+    <script src="/js/particle-fx/rain-particle-effect.js"></script>
+    <script src="/js/particle-fx/volcano-particle-effect.js"></script>
 
     <script src="/js/shared.js"></script>
     <script src="/js/pages/index.js"></script>

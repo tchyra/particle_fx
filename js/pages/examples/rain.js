@@ -3,10 +3,7 @@ var effect;
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    effect = new SnowParticleEffect('#cnv', {
-        particles: {
-            count: 100
-        },
+    effect = new RainParticleEffect('#cnv', {
         wind: {
             printStateChanges: false
         }
