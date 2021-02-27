@@ -1,43 +1,4 @@
-﻿
-$c-bg: #101010;
-
-$c-text-lght-pri: rgba(#fff, 0.9);
-$c-text-lght-sec: rgba(#fff, 0.65);
-$c-text-lght-tet: rgba(#fff, 0.4);
-
-$c-border-pri: rgba(#fff, 0.9);
-$c-border-sec: rgba(#fff, 0.15);
-$c-border-tet: rgba(#fff, 0.05);
-
-$font-family-heading: 'New Standard', 'serif';
-$font-family-body: 'Oxygen', 'sans-serif';
-
-$font-size-jumbo: 2.5rem;
-$font-size-heading: 1.4rem;
-$font-size-body: 1rem;
-$font-size-sec: 0.8rem;
-$font-size-tet: 0.6rem;
-
-$page-grid-row-spacing: 32px;
-$page-grid-col-spacing: 48px;
-$page-vert-spacing: 80px;
-
-$page-sidebar-max-width: 300px;
-$page-content-max-width: 640px;
-$page-max-width: $page-sidebar-max-width + $page-grid-col-spacing + $page-content-max-width;
-
-$page-header-height: 150px;
-
-$section-spacing: 64px;
-
-$btn-height: 40px;
-$btn-border-width: 2px;
-$btn-icon-size: 24px;
-
-$icon-size: 20px;
-
-$toc-li-height: 36px;
-
+﻿@import "../shared/vars.scss";
 
 //
 // DEFAULT ELEMENT STYLING
@@ -66,7 +27,7 @@ h1 {
     font-size: $font-size-jumbo;
     font-family: $font-family-heading;
     color: $c-text-lght-pri;
-    letter-spacing: 1px;
+    margin-top: 0;
 }
 
 h2 {
@@ -107,6 +68,27 @@ code {
     width: $icon-size;
     height: $icon-size;
     opacity: 0.6;
+}
+
+
+//
+// WEBKIT SCROLLBAR
+//
+
+::-webkit-scrollbar {
+    background-color: black;
+    width: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(#fff, 0.15);
+    border-radius: 16px;
+    border: 2px solid black;
+    transition: background-color ease-in-out 0.1s;
+
+    &:hover {
+        background-color: rgba(#fff, 0.2);
+    }
 }
 
 
@@ -225,7 +207,8 @@ code {
     padding-left: 0;
     user-select: none;
 
-    li {
+    li:not(.link), li.link > a {
+        display: list-item;
         color: $c-text-lght-pri;
         padding: 8px 16px;
         cursor: pointer;
@@ -234,6 +217,7 @@ code {
         box-sizing: border-box;
         overflow: hidden;
         border-radius: 4px;
+        text-decoration: none;
 
         &:before {
             content: counter(toc)".";
@@ -263,12 +247,6 @@ code {
             transition: transform ease-out 0.2s, opacity linear 0.05s;
         }
 
-        > a {
-            display: inline-block;
-            color: $c-text-lght-pri;
-            text-decoration: none;
-        }
-
         .action {
             position: absolute;
             right: 12px;
@@ -278,10 +256,10 @@ code {
                 top: ($toc-li-height - $btn-icon-size) / 2;
             }
         }
+    }
 
-        + li {
+    li + li {
             margin-top: 4px;
-        }
     }
 
     ol {
@@ -289,8 +267,9 @@ code {
         counter-reset: toc-sub;
         padding: 4px 0;
         padding-left: 32px;
+        margin-bottom: 8px;
 
-        li {
+        li:not(.link), li.link > a {
 
             &:before {
                 content: counter(toc)"."counter(toc-sub)".";

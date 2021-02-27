@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     effect = new SnowParticleEffect('#cnv', {
         particles: {
-            count: 100
+            count: 50
         },
         wind: {
             printStateChanges: false

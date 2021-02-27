@@ -1,6 +1,10 @@
 ﻿[
   {
-    "outputFile": "css/site.css",
-    "inputFile": "css/site.scss"
+    "outputFile": "css/pages/site.css",
+    "inputFile": "css/pages/site.scss"
+  },
+  {
+    "outputFile": "css/pages/examples.css",
+    "inputFile": "css/pages/examples.scss"
   }
 ]

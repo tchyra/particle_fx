@@ -5,9 +5,52 @@
     <title>Snow particle effect</title>
     <meta name="viewport" content="width=device-width" />
 
-    <link rel="stylesheet" href="/css/site.css" />
+    <link rel="stylesheet" href="/css/pages/site.css" />
+    <link rel="stylesheet" href="/css/pages/examples.css" />
+
 </head>
 <body>
+
+    <div class="sidebar-container">
+
+        <div class="sidebar">
+            <h1>Snow</h1>
+            <section>
+                <h2>How it works</h2>
+                <p>
+                    A fixed number of particles is generated on startup.
+                    Their position is randomized within the bounds of the screen.
+                    Each particle gets assigned a random size. The Y component of a particle's velocity is directly tied to how large it is.
+                    Larger particles will fall slower, while smaller ones will fall faster, to simulate drag.
+                </p>
+                <p>
+                    Every frame, each particle is updated first, then drawn.
+                    Updating a particle consists of updating the X component of its velocity according to the current wind speed (more on wind later),
+                    then updating its position based on its velocity and the amount of time that passed between frames.
+                    This is to make the animation framerate-independent, meaning even if you run it on your newest gaming PC, it won't look sped up.
+                </p>
+
+                <p>
+                    Drawing a particle is just drawing a rectangle at its coordinates with its size, nothing particularly amazing to see here.
+                </p>
+            </section>
+
+            <section>
+                <h2>Wind system</h2>
+                <p>
+                    There is a separate system in charge of updating the aforementioned wind speed that affects all particles.
+                    It operates on cycles, each cycle comprising of two phases: a transition phase and a hold phase.
+                </p>
+                <p>
+                    A cycle is started by assigning random values to both phase lengths,
+                    assigning the new value the transition phase will transition to, and setting a timer variable to track how much time remains in each phase.
+                    The timer is decremented on each frame. When it reaches zero, a check is made - if the current phase is the transition phase,
+                    the timer is reset and the hold phase begins. Otherwise, a new cycle is started and the whole process repeats.
+                </p>
+            </section>
+        </div>
+
+    </div>
 
     <canvas id="cnv" class="fill-parent"></canvas>
 

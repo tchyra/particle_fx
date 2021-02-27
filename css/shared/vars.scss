@@ -1,0 +1,39 @@
+﻿
+$c-bg: #101010;
+
+$c-text-lght-pri: rgba(#fff, 0.9);
+$c-text-lght-sec: rgba(#fff, 0.65);
+$c-text-lght-tet: rgba(#fff, 0.4);
+
+$c-border-pri: rgba(#fff, 0.9);
+$c-border-sec: rgba(#fff, 0.15);
+$c-border-tet: rgba(#fff, 0.05);
+
+$font-family-heading: 'New Standard', 'serif';
+$font-family-body: 'Oxygen', 'sans-serif';
+
+$font-size-jumbo: 2.5rem;
+$font-size-heading: 1.4rem;
+$font-size-body: 1rem;
+$font-size-sec: 0.8rem;
+$font-size-tet: 0.6rem;
+
+$page-grid-row-spacing: 32px;
+$page-grid-col-spacing: 48px;
+$page-vert-spacing: 80px;
+
+$page-sidebar-max-width: 300px;
+$page-content-max-width: 640px;
+$page-max-width: $page-sidebar-max-width + $page-grid-col-spacing + $page-content-max-width;
+
+$page-header-height: 100px;
+
+$section-spacing: 64px;
+
+$btn-height: 40px;
+$btn-border-width: 2px;
+$btn-icon-size: 24px;
+
+$icon-size: 20px;
+
+$toc-li-height: 36px;

@@ -1,0 +1,28 @@
+﻿@import "../shared/vars.scss";
+
+$sidebar-padding: 32px;
+
+.sidebar-container {
+    position: relative;
+    z-index: 1;
+    margin-right: auto;
+    width: $page-sidebar-max-width + $page-grid-col-spacing * 2;
+    padding: $page-vert-spacing $page-grid-col-spacing;
+
+    > .sidebar {
+        background-color: $c-bg;
+        min-height: 100%;
+        width: 100%;
+        border: 1px solid $c-border-sec;
+        padding: $sidebar-padding;
+        box-sizing: border-box;
+    }
+}
+
+canvas.fill-parent {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
