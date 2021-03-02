@@ -1,4 +1,7 @@
-﻿.sidebar-container {
+﻿.top-bar > .content {
+  max-width: 492px; }
+
+.sidebar-container {
   position: relative;
   z-index: 1;
   margin-right: auto;
@@ -25,6 +28,8 @@
   right: 0; }
 
 @media only screen and (max-width: 984px) {
+  .top-bar {
+    display: block; }
   .sidebar-container {
     padding-top: calc(100vh - 104px);
     padding-left: 16px;
@@ -33,4 +38,6 @@
     .sidebar-container > .up-indicator {
       display: block; }
     .sidebar-container > .sidebar {
-      padding-top: 24px; } }
+      padding-top: 24px; }
+      .sidebar-container > .sidebar > h1 > .btn-icon {
+        display: none; } }

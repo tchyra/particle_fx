@@ -3,6 +3,12 @@
 $sidebar-padding: 32px;
 $sidebar-container-max-width: $page-sidebar-max-width + $page-grid-col-spacing * 4;
 
+.top-bar {
+    > .content {
+        max-width: $sidebar-container-max-width;
+    }
+}
+
 .sidebar-container {
     position: relative;
     z-index: 1;
@@ -36,6 +42,11 @@ $sidebar-container-max-width: $page-sidebar-max-width + $page-grid-col-spacing *
 }
 
 @media only screen and (max-width: $sidebar-container-max-width * 2) {
+
+    .top-bar {
+        display:block;
+    }
+
     .sidebar-container {
         padding-top: calc(100vh - 104px);
         padding-left: 16px;
@@ -48,6 +59,10 @@ $sidebar-container-max-width: $page-sidebar-max-width + $page-grid-col-spacing *
 
         > .sidebar {
             padding-top: 24px;
+
+            > h1 > .btn-icon {
+                display: none;
+            }
         }
     }
 }

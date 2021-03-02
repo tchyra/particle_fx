@@ -30,7 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initTOC();
     initExampleFx();
     initDrawer();
-    initHideTopBarOnScroll();
 
     document.getElementById('current_year').innerText = new Date().getFullYear();
 });
@@ -112,23 +111,6 @@ function toggleSidebar(ev) {
     els.sidebar.classList.toggle('in');
     ev.stopPropagation();
     return true;
-}
-
-function initHideTopBarOnScroll() {
-    let prevScrollTop = document.scrollingElement.scrollTop;
-    let hidden = false;
-
-    window.addEventListener('scroll', ev => {
-
-        let newHidden = prevScrollTop < document.scrollingElement.scrollTop;
-
-        if (newHidden !== hidden) {
-            els.topBar.classList.toggle('hidden', newHidden)
-            hidden = newHidden;
-        }
-
-        prevScrollTop = document.scrollingElement.scrollTop;
-    });
 }
 
 function blockEvent(ev) {

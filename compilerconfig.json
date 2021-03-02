@@ -6,5 +6,9 @@
   {
     "outputFile": "css/pages/examples.css",
     "inputFile": "css/pages/examples.scss"
+  },
+  {
+    "outputFile": "css/pages/index.css",
+    "inputFile": "css/pages/index.scss"
   }
 ]

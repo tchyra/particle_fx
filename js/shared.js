@@ -1,7 +1,7 @@
 ﻿
 document.addEventListener('DOMContentLoaded', () => {
 
-
+    initHideTopBarOnScroll();
 
 });
 
@@ -41,4 +41,22 @@ function initEls(els) {
 
     }
 
+}
+
+function initHideTopBarOnScroll() {
+    let prevScrollTop = document.scrollingElement.scrollTop;
+    let hidden = false;
+    let topBar = document.querySelector('.top-bar');
+
+    window.addEventListener('scroll', ev => {
+
+        let newHidden = prevScrollTop < document.scrollingElement.scrollTop;
+
+        if (newHidden !== hidden) {
+            topBar.classList.toggle('hidden', newHidden);
+            hidden = newHidden;
+        }
+
+        prevScrollTop = document.scrollingElement.scrollTop;
+    });
 }
