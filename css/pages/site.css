@@ -118,8 +118,7 @@ code {
     color: rgba(255, 255, 255, 0.4); }
 
 .page-sidebar {
-  width: 300px;
-  overflow: auto; }
+  width: 300px; }
   .page-sidebar > section {
     position: sticky;
     box-sizing: border-box;
@@ -158,7 +157,8 @@ code {
     background-color: rgba(16, 16, 16, 0.75);
     pointer-events: none;
     opacity: 0;
-    transition: opacity ease-in-out 0.33s; }
+    transition: opacity ease-in-out 0.33s;
+    overflow: auto; }
     .page-sidebar > section {
       position: static;
       max-width: 300px;

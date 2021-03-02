@@ -171,7 +171,6 @@ code {
 
 .page-sidebar {
     width: $page-sidebar-max-width;
-    overflow: auto;
 
     > section {
         position: sticky;
@@ -225,6 +224,7 @@ code {
         pointer-events: none;
         opacity: 0;
         transition: opacity ease-in-out 0.33s;
+        overflow: auto;
 
         > section {
             position: static;
