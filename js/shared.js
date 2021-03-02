@@ -20,11 +20,11 @@ function initEls(els) {
 
                 if (elInitPropName === 'id')
                     // get by ID
-                    els[elVarName] = document.getElementById(elInit);
+                    els[elVarName] = document.getElementById(elInitPropVal);
 
                 else if (elInitPropName === 'selector')
                     // get by selector
-                    els[elVarName] = document.querySelector(elInit);
+                    els[elVarName] = document.querySelector(elInitPropVal);
 
                 else if (elInitPropName.startsWith('on_')) {
 

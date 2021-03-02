@@ -13,8 +13,17 @@
 
     <div class="sidebar-container">
 
+        <div class="up-indicator">
+            <img class="icon" src="/img/icons/chevron-up.svg" />
+        </div>
+
         <div class="sidebar">
-            <h1>Snow</h1>
+            <h1>
+                <a href="/index.html" class="btn-icon">
+                    <img class="icon" src="/img/icons/arrow-left.svg" />
+                </a>
+                Snow
+            </h1>
             <section>
                 <h2>How it works</h2>
                 <p>
@@ -31,7 +40,8 @@
                 </p>
 
                 <p>
-                    Drawing a particle is just drawing a rectangle at its coordinates with its size, nothing particularly amazing to see here.
+                    Drawing a particle is just drawing a rectangle at its coordinates with its size.
+                    Each particle gets a randomly assigned brightness upon generation.
                 </p>
             </section>
 
@@ -52,7 +62,9 @@
 
     </div>
 
-    <canvas id="cnv" class="fill-parent"></canvas>
+    <div class="canvas-container">
+        <canvas id="cnv" class="fill-parent"></canvas>
+    </div>
 
 
     <script src="/js/particle-fx/shared/range.js"></script>

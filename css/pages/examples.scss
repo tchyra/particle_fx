@@ -1,16 +1,24 @@
 ﻿@import "../shared/vars.scss";
 
 $sidebar-padding: 32px;
+$sidebar-container-max-width: $page-sidebar-max-width + $page-grid-col-spacing * 4;
 
 .sidebar-container {
     position: relative;
     z-index: 1;
     margin-right: auto;
-    width: $page-sidebar-max-width + $page-grid-col-spacing * 2;
+    max-width: $sidebar-container-max-width;
+    width: 100%;
     padding: $page-vert-spacing $page-grid-col-spacing;
+    box-sizing: border-box;
+
+    > .up-indicator {
+        display: none;
+        text-align: center;
+    }
 
     > .sidebar {
-        background-color: $c-bg;
+        background-color: rgba($c-bg, 0.75);
         min-height: 100%;
         width: 100%;
         border: 1px solid $c-border-sec;
@@ -19,10 +27,27 @@ $sidebar-padding: 32px;
     }
 }
 
-canvas.fill-parent {
+.canvas-container {
     position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
+}
+
+@media only screen and (max-width: $sidebar-container-max-width * 2) {
+    .sidebar-container {
+        padding-top: calc(100vh - 104px);
+        padding-left: 16px;
+        padding-right: 16px;
+        margin: auto;
+
+        > .up-indicator {
+            display: block;
+        }
+
+        > .sidebar {
+            padding-top: 24px;
+        }
+    }
 }

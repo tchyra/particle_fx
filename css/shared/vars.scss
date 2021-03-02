@@ -1,5 +1,6 @@
 ﻿
 $c-bg: #101010;
+$c-hover-bg: rgba(#fff, 0.08);
 
 $c-text-lght-pri: rgba(#fff, 0.9);
 $c-text-lght-sec: rgba(#fff, 0.65);
@@ -21,6 +22,7 @@ $font-size-tet: 0.6rem;
 $page-grid-row-spacing: 32px;
 $page-grid-col-spacing: 48px;
 $page-vert-spacing: 80px;
+$page-padding: 32px;
 
 $page-sidebar-max-width: 300px;
 $page-content-max-width: 640px;
@@ -32,7 +34,7 @@ $section-spacing: 64px;
 
 $btn-height: 40px;
 $btn-border-width: 2px;
-$btn-icon-size: 24px;
+$btn-icon-size: 40px;
 
 $icon-size: 20px;
 

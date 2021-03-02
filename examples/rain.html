@@ -11,7 +11,65 @@
 </head>
 <body>
 
-    <canvas id="cnv" class="fill-parent"></canvas>
+    <div class="sidebar-container">
+
+            <div class="up-indicator">
+                <img class="icon" src="/img/icons/chevron-up.svg" />
+            </div>
+
+        <div class="sidebar">
+
+            <h1>
+                <a href="/index.html" class="btn-icon">
+                    <img class="icon" src="/img/icons/arrow-left.svg" />
+                </a>
+                Rain
+            </h1>
+            <section>
+                <h2>How it works</h2>
+                <p>
+                    A fixed number of particles is generated on startup.
+                    Their position is randomized within the bounds of the screen.
+                    Each particle gets assigned a random size, which relates to the particle's mass.
+                    In the snow effect, larger particles fell slower, here they fall faster.
+                    However, larger particles are still affected by wind more than small ones.
+                </p>
+                <p>
+                    Every frame, each particle is updated first, then drawn.
+                    Updating a particle consists of updating the X component of its velocity according to the current wind speed (more on wind later),
+                    then updating its position based on its velocity and the amount of time that passed between frames.
+                    This is to make the animation framerate-independent, meaning even if you run it on your newest gaming PC, it won't look sped up.
+                </p>
+
+                <p>
+                    Rain particles are drawn as lines representing their position and their velocity.
+                    The angle of the line is exactly the same as its velocity vector's angle.
+                    The length of any given line is equal to that particle's velocity times a constant time.
+                    Each particle also gets a colour randomly selected from a range of colours.
+                </p>
+            </section>
+
+            <section>
+                <h2>Wind system</h2>
+                <p>
+                    There is a separate system in charge of updating the aforementioned wind speed that affects all particles.
+                    It operates on cycles, each cycle comprising of two phases: a transition phase and a hold phase.
+                </p>
+                <p>
+                    A cycle is started by assigning random values to both phase lengths,
+                    assigning the new value the transition phase will transition to, and setting a timer variable to track how much time remains in each phase.
+                    The timer is decremented on each frame. When it reaches zero, a check is made - if the current phase is the transition phase,
+                    the timer is reset and the hold phase begins. Otherwise, a new cycle is started and the whole process repeats.
+                </p>
+            </section>
+
+        </div>
+
+    </div>
+
+    <div class="canvas-container">
+        <canvas id="cnv" class="fill-parent"></canvas>
+    </div>
 
     <script src="/js/particle-fx/shared/range.js"></script>
     <script src="/js/particle-fx/shared/color-range.js"></script>

@@ -11,8 +11,54 @@
 </head>
 <body>
 
-    <canvas id="cnv" class="fill-parent"></canvas>
 
+    <div class="sidebar-container">
+
+        <div class="up-indicator">
+            <img class="icon" src="/img/icons/chevron-up.svg" />
+        </div>
+
+        <div class="sidebar">
+
+            <h1>
+                <a href="/index.html" class="btn-icon">
+                    <img class="icon" src="/img/icons/arrow-left.svg" />
+                </a>
+                Volcano
+            </h1>
+            <section>
+                <h2>How it works</h2>
+                <p>
+                    This effect works differently than the other two.
+                    The nubmer of particles is not constant, but there is a limit to how many particles can exist at any given moment.
+                    Instead of all spawning at startup, particles are spawned in waves.
+                    The delay between waves and as how many particles spawn in each wave are both randomized.
+                </p>
+                <p>
+                    All particles spawn at the same point. Each one is given its own randomized start colour, end colour, cooldown duration, starting velocity and mass.
+                    Mass affects how fast the particle falls, but also its size, which in turn affects how much the particle is slowed down by drag.
+                </p>
+                <p>
+                    Each particle's velocity is affected by gravity vertically and air drag horizontally.
+                    After that, their position is affected by their velocity.
+                </p>
+                <p>
+                    When particles fall below the bottom of the screen, they despawn, freeing up slots for new particles to spawn in.
+                    If there are no free slots for all particles in a spawnwave, the wave will only spawn as many particles as there are available slots.
+                </p>
+                <p>
+                    Finally, the colour of each particle is updated based on how much time passed since it spawned relative to the cooldown duration.
+                    The colour is a linear interpolation between the start and end colours.
+                </p>
+            </section>
+
+        </div>
+
+    </div>
+
+    <div class="canvas-container">
+        <canvas id="cnv" class="fill-parent"></canvas>
+    </div>
 
     <script src="/js/particle-fx/shared/range.js"></script>
     <script src="/js/particle-fx/shared/color-range.js"></script>

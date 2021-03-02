@@ -4,7 +4,7 @@ class RainParticleEffect extends ParticleEnv {
     static getDefaultSimulationParams() {
         return {
             particles: {
-                count: 100,
+                count: 50,
                 sizeRange: new Range(1, 4),
                 colorRange: new ColorRange('#527A91', '#2E3D89'),
                 vyRange: new Range(1080 / 0.5, 1080 / 1.4),
@@ -12,10 +12,10 @@ class RainParticleEffect extends ParticleEnv {
                 length: 0.1
             },
             wind: {
-                vxRange: new Range(1920 / 5, 1920 / 10),
+                vxRange: new Range(1920 / 10, 1920 / 1),
                 holdDurRange: new Range(0.5, 2),
                 transitionDurRange: new Range(1, 4),
-                printStateChanges: true
+                printStateChanges: false
             }
         };
     }

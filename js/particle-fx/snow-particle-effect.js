@@ -5,7 +5,7 @@ class SnowParticleEffect extends ParticleEnv {
         // velocity is in px/s
         return {
             particles: {
-                count: 20,
+                count: 50,
                 sizeRange: new Range(2, 8),
                 brightnessRange: new Range(255 / 5, 255),
                 vyRange: new Range(1080 / 6, 1080 / 1.5),
@@ -15,7 +15,7 @@ class SnowParticleEffect extends ParticleEnv {
                 vxRange: new Range(1920 / 5, 1920 / 10),
                 holdDurRange: new Range(0.5, 2),
                 transitionDurRange: new Range(1, 4),
-                printStateChanges: true
+                printStateChanges: false
             }
         };
     }

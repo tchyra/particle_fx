@@ -4,7 +4,24 @@
 // so that's why it's the way it is
 
 let els = {
-    toc: '.toc'
+    toc: '.toc',
+    sidebar: {
+        selector: '.page-sidebar',
+        on_click: toggleSidebar
+    },
+    sidebarSection: {
+        selector: '.page-sidebar > section',
+        on_click: blockEvent
+    },
+    btnMenu: {
+        id: 'btn_menu',
+        on_click: toggleSidebar
+    },
+    btnDrawerCloseButton: {
+        selector: '.drawer-close-button',
+        on_click: toggleSidebar
+    },
+    topBar: '.top-bar'
 };
 
 
@@ -12,6 +29,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initEls(els);
     initTOC();
     initExampleFx();
+    initDrawer();
+    initHideTopBarOnScroll();
 
     document.getElementById('current_year').innerText = new Date().getFullYear();
 });
@@ -35,9 +54,12 @@ function initTOC() {
 
         li.addEventListener('click', function (ev) {
 
+            // absolutely no idea why it does not work without the timeout
+            setTimeout(() => els.sidebar.classList.remove('in'), 0);
+
             let liTargetBCR = liTargetSection.getBoundingClientRect();
             let top = document.scrollingElement.scrollTop + liTargetBCR.top - scrollToSpacingTop;
-
+            
             document.scrollingElement.scrollTo({ top, behavior: 'smooth' });
         });
 
@@ -47,31 +69,30 @@ function initTOC() {
 
 function initExampleFx() {
 
-    let snowFx = new SnowParticleEffect('#cnv_snow', {
+    let snowEffect = new SnowParticleEffect('#cnv_snow', {
         particles: {
             count: 8,
             sizeRange: new Range(2, 4),
             vyRange: new Range(69, 420)
         },
         wind: {
-            vxRange: new Range(50, 320),
-            printStateChanges: false
+            vxRange: new Range(50, 320)
         }
     });
 
-    let rainfx = new RainParticleEffect('#cnv_rain', {
+    let rainEffect = new RainParticleEffect('#cnv_rain', {
         particles: {
             count: 12,
             sizeRange: new Range(1, 2),
-            length: 0.1,
+            length: 0.07,
             vyRange: new Range(600, 1000),
         },
         wind: {
-            printStateChanges: false
+            vxRange: new Range(1920 / 10, 1920 / 5)
         }
     });
 
-    let volcanoFx = new VolcanoParticleEffect('#cnv_volcano', {
+    let volcanoEffect = new VolcanoParticleEffect('#cnv_volcano', {
         particles: {
             maxCount: 20,
             sizeRange: new Range(3, 5),
@@ -81,4 +102,36 @@ function initExampleFx() {
         gravityForce: 80,
         spYFraction: 0.9
     });
+}
+
+function initDrawer() {
+    
+}
+
+function toggleSidebar(ev) {
+    els.sidebar.classList.toggle('in');
+    ev.stopPropagation();
+    return true;
+}
+
+function initHideTopBarOnScroll() {
+    let prevScrollTop = document.scrollingElement.scrollTop;
+    let hidden = false;
+
+    window.addEventListener('scroll', ev => {
+
+        let newHidden = prevScrollTop < document.scrollingElement.scrollTop;
+
+        if (newHidden !== hidden) {
+            els.topBar.classList.toggle('hidden', newHidden)
+            hidden = newHidden;
+        }
+
+        prevScrollTop = document.scrollingElement.scrollTop;
+    });
+}
+
+function blockEvent(ev) {
+    ev.stopPropagation();
+    return true;
 }

@@ -20,7 +20,7 @@ class VolcanoParticleEffect extends ParticleEnv {
             gravityForce: 100,
             airDecel: 0.5,
             spXFraction: 0.5,
-            spYFraction: 0.7,
+            spYFraction: 0.5,
             spawnwaveDelayRange: new Range(0.1, 1),
             spawnCountRange: new Range(20, 31)
         };
@@ -141,7 +141,9 @@ class VolcanoParticleEffect extends ParticleEnv {
     }
 
     resize() {
-        this.spX = this.cnvw * this.params.spXFraction;
-        this.spY = this.cnvh * this.params.spYFraction;
+        if (this.params) {
+            this.spX = this.cnvw * this.params.spXFraction;
+            this.spY = this.cnvh * this.params.spYFraction;
+        }
     }
 }

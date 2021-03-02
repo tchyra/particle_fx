@@ -65,7 +65,7 @@ class ParticleEnv {
         this.cnvw = this.cnv.width = this.parent.clientWidth;
         this.cnvh = this.cnv.height = this.parent.clientHeight;
 
-        if (typeof this.options.resize === 'function' && (prevW !== this.cnvw || prevH !== this.cnvh))
+        if (prevW !== this.cnvw || prevH !== this.cnvh)
             this.resize();
     }
 
