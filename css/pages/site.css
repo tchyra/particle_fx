@@ -1,17 +1,5 @@
 ﻿@charset "UTF-8";
-@font-face {
-  font-family: 'New Standard';
-  src: local("New Standard Regular"), local("New Standard"), url("../../fonts/NewStandard-Regular.woff") format("woff"), serif; }
-
-@font-face {
-  font-family: 'Oxygen';
-  src: local("Oxygen"), url(../../fonts/Oxygen-Regular.ttf), sans-serif; }
-
-@font-face {
-  font-family: 'Oxygen';
-  font-weight: bold;
-  src: local("Oxygen"), url(../../fonts/Oxygen-Bold.ttf), sans-serif; }
-
+@import url("https://fonts.googleapis.com/css2?family=Oxygen:wght@400;700&display=swap");
 html {
   background-color: #101010;
   color: rgba(255, 255, 255, 0.65); }
@@ -32,7 +20,7 @@ body {
 h1 {
   /* jumbo heading on top of entire page */
   font-size: 2.5rem;
-  font-family: "New Standard", "serif";
+  font-family: "New Standard", "Times New Roman", "serif";
   color: rgba(255, 255, 255, 0.9);
   margin-top: 0; }
   h1 > .btn-icon {

@@ -1,20 +1,6 @@
 ﻿@import "../shared/vars.scss";
 
-@font-face {
-    font-family: 'New Standard';
-    src: local('New Standard Regular'), local('New Standard'), url('../../fonts/NewStandard-Regular.woff') format('woff'), serif;
-}
-
-@font-face {
-    font-family: 'Oxygen';
-    src: local('Oxygen'), url(../../fonts/Oxygen-Regular.ttf), sans-serif;
-}
-
-@font-face {
-    font-family: 'Oxygen';
-    font-weight: bold;
-    src: local('Oxygen'), url(../../fonts/Oxygen-Bold.ttf), sans-serif;
-}
+@import url('https://fonts.googleapis.com/css2?family=Oxygen:wght@400;700&display=swap');
 
 //
 // DEFAULT ELEMENT STYLING
