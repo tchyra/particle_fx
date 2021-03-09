@@ -9,9 +9,10 @@
   width: 100%;
   padding: 80px 48px;
   box-sizing: border-box;
-  transition: transform ease-in 0.33s; }
+  transition: transform ease-out 0.33s; }
   .sidebar-container.hidden {
-    transform: translateX(-100%); }
+    transform: translateX(-100%);
+    transition-timing-function: ease-in; }
   .sidebar-container > .up-indicator {
     display: none;
     text-align: center; }

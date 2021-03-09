@@ -17,10 +17,11 @@ $sidebar-container-max-width: $page-sidebar-max-width + $page-grid-col-spacing *
     width: 100%;
     padding: $page-vert-spacing $page-grid-col-spacing;
     box-sizing: border-box;
-    transition: transform ease-in 0.33s;
+    transition: transform ease-out 0.33s;
 
     &.hidden {
         transform: translateX(-100%);
+        transition-timing-function: ease-in;
     }
 
     > .up-indicator {
