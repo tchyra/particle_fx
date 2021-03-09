@@ -125,19 +125,24 @@
 
 .input-field {
   display: flex;
+  flex-direction: column;
   margin-top: 32px;
   align-items: center; }
   .input-field > label {
-    min-width: 75%;
-    color: rgba(255, 255, 255, 0.4); }
+    width: 100%;
+    margin-bottom: 4px;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.8rem; }
   .input-field input {
     background-color: transparent;
     background: none;
     border: 1px solid rgba(255, 255, 255, 0.15);
     font-family: Consolas, monospace;
+    font-size: 1rem;
     color: rgba(255, 255, 255, 0.65);
     padding: 4px;
-    flex-grow: 1; }
+    box-sizing: border-box;
+    width: 100%; }
     .input-field input[type=number] {
       text-align: right;
       -moz-appearance: none; }
@@ -151,14 +156,21 @@
     margin-top: 8px; }
 
 .double-field {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   margin: 32px 0; }
   .double-field > label {
     display: block;
     font-size: 1rem;
     color: rgba(255, 255, 255, 0.65);
-    font-weight: bold;
-    width: 100%;
-    margin-bottom: 16px; }
+    /*font-weight: bold;*/
+    margin-bottom: 8px;
+    flex-basis: 100%; }
   .double-field > .input-field {
-    font-size: 1rem;
-    margin-top: 8px; }
+    margin: 0;
+    flex: 1; }
+    .double-field > .input-field:first-child {
+      margin-right: 16px; }
+    .double-field > .input-field:last-child {
+      margin-left: 16px; }

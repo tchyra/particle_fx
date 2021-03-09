@@ -192,12 +192,15 @@ $tab-corner-radius: 8px;
 
 .input-field {
     display: flex;
+    flex-direction: column;
     margin-top: 32px;
     align-items: center;
 
     > label {
-        min-width: 75%;
+        width: 100%;
+        margin-bottom: 4px;
         color: $c-text-lght-tet;
+        font-size: $font-size-sec;
     }
 
     input {
@@ -205,9 +208,11 @@ $tab-corner-radius: 8px;
         background: none;
         border: 1px solid $c-border-sec;
         font-family: Consolas, monospace;
+        font-size: $font-size-body;
         color: $c-text-lght-sec;
         padding: 4px;
-        flex-grow: 1;
+        box-sizing: border-box;
+        width: 100%;
 
         &[type=number] {
             text-align: right;
@@ -232,19 +237,31 @@ $tab-corner-radius: 8px;
 }
 
 .double-field {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     margin: 32px 0;
 
     > label {
         display: block;
         font-size: $font-size-body;
         color: $c-text-lght-sec;
-        font-weight: bold;
-        width: 100%;
-        margin-bottom: 16px;
+        /*font-weight: bold;*/
+        margin-bottom: 8px;
+        flex-basis: 100%;
     }
 
     > .input-field {
-        font-size: $font-size-body;
-        margin-top: 8px;
+        margin: 0;
+        flex: 1;
+        $spacing: 16px;
+
+        &:first-child {
+            margin-right: $spacing;
+        }
+
+        &:last-child {
+            margin-left: $spacing;
+        }
     }
 }
