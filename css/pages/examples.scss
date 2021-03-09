@@ -28,8 +28,13 @@ $sidebar-container-max-width: $page-sidebar-max-width + $page-grid-col-spacing *
         min-height: 100%;
         width: 100%;
         border: 1px solid $c-border-sec;
-        padding: $sidebar-padding;
         box-sizing: border-box;
+        overflow: hidden;
+
+        > h1 {
+            margin: $sidebar-padding;
+            margin-bottom: 16px;
+        }
     }
 }
 
@@ -44,7 +49,7 @@ $sidebar-container-max-width: $page-sidebar-max-width + $page-grid-col-spacing *
 @media only screen and (max-width: $sidebar-container-max-width * 2) {
 
     .top-bar {
-        display:block;
+        display: block;
     }
 
     .sidebar-container {
@@ -64,5 +69,161 @@ $sidebar-container-max-width: $page-sidebar-max-width + $page-grid-col-spacing *
                 display: none;
             }
         }
+    }
+}
+
+
+$tab-indicator-width: 4px;
+$tab-padding-vert: 12px;
+$tab-corner-radius: 8px;
+
+.tabs {
+    display: flex;
+    flex-direction: row;
+
+    > button {
+        background: none;
+        border: none;
+        position: relative;
+        color: $c-text-lght-sec;
+        flex-grow: 1;
+        padding: $tab-padding-vert 0;
+        text-align: center;
+        padding-bottom: $tab-padding-vert;
+        margin-bottom: $tab-indicator-width;
+        outline: none;
+        cursor: pointer;
+        transition: background-color ease-in-out 0.1s;
+        border-top-left-radius: $tab-corner-radius;
+        border-top-right-radius: $tab-corner-radius;
+        font-family: $font-family-body;
+        font-size: $font-size-body;
+
+        &:after {
+            content: "";
+            background-color: $c-border-pri;
+            height: $tab-indicator-width;
+            width: 100%;
+            position: absolute;
+            bottom: -$tab-indicator-width;
+            left: 0;
+            right: 0;
+            transition: transform ease-in-out 0.33s;
+            transform: scaleX(0);
+        }
+
+        &:first-child {
+            &:after {
+                transform-origin: right;
+            }
+        }
+
+        &:last-child {
+            &:after {
+                transform-origin: left;
+            }
+        }
+
+        &:hover {
+            background-color: $c-hover-bg;
+        }
+
+        &.active {
+            color: $c-text-lght-pri;
+
+            &:after {
+                transform: scaleX(1);
+                transition-timing-function: ease-in-out;
+            }
+        }
+    }
+}
+
+.tab-contents-container {
+    white-space: nowrap;
+    font-size: 0;
+
+    .tab-content {
+        display: inline-block;
+        transition: transform ease-in-out 0.33s;
+        transform: translateX(-100%);
+        width: 100%;
+        white-space: normal;
+        font-size: $font-size-body;
+        box-sizing: border-box;
+        padding: $sidebar-padding;
+        vertical-align: top;
+
+        &.active {
+            transform: translateX(0);
+        }
+
+        + .tab-content {
+            transform: translateX(0);
+
+            &.active {
+                transform: translateX(-100%);
+            }
+        }
+    }
+}
+
+
+.input-field {
+    display: flex;
+    margin-top: 32px;
+    align-items: center;
+
+    > label {
+        min-width: 75%;
+        color: $c-text-lght-tet;
+    }
+
+    input {
+        background-color: transparent;
+        background: none;
+        border: 1px solid $c-border-sec;
+        font-family: Consolas, monospace;
+        color: $c-text-lght-sec;
+        padding: 4px;
+        flex-grow: 1;
+
+        &[type=number] {
+            text-align: right;
+            -moz-appearance: none;
+
+            &::-webkit-outer-spin-button,
+            &::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+        }
+
+        &.modified {
+            border-style: dotted;
+            border-color: $c-accent;
+        }
+    }
+
+    + .input-field {
+        margin-top: 8px;
+    }
+}
+
+.double-field {
+    margin: 32px 0;
+
+    > label {
+        display: block;
+        font-size: $font-size-body;
+        color: $c-text-lght-sec;
+        font-weight: bold;
+        width: 100%;
+        margin-bottom: 16px;
+    }
+
+    > .input-field {
+        font-size: $font-size-body;
+        margin-top: 8px;
     }
 }

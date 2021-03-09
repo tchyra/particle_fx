@@ -99,4 +99,10 @@ class ParticleEnv {
     getNotImplementedExceptionText(funName) {
         return `abstract function ${funName}() must be implemented in classes deriving from ParticleEnv.`
     }
+
+    restart() {
+        this.frameNo = 0;
+        this.prevFrameTimestamp = Date.now();
+        this.start();
+    }
 }

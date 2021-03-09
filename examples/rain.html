@@ -33,44 +33,175 @@
                 </a>
                 Rain
             </h1>
-            <section>
-                <h2>How it works</h2>
-                <p>
-                    A fixed number of particles is generated on startup.
-                    Their position is randomized within the bounds of the screen.
-                    Each particle gets assigned a random size, which relates to the particle's mass.
-                    In the snow effect, larger particles fell slower, here they fall faster.
-                    However, larger particles are still affected by wind more than small ones.
-                </p>
-                <p>
-                    Every frame, each particle is updated first, then drawn.
-                    Updating a particle consists of updating the X component of its velocity according to the current wind speed (more on wind later),
-                    then updating its position based on its velocity and the amount of time that passed between frames.
-                    This is to make the animation framerate-independent, meaning even if you run it on your newest gaming PC, it won't look sped up.
-                </p>
 
-                <p>
-                    Rain particles are drawn as lines representing their position and their velocity.
-                    The angle of the line is exactly the same as its velocity vector's angle.
-                    The length of any given line is equal to that particle's velocity times a constant time.
-                    Each particle also gets a colour randomly selected from a range of colours.
-                </p>
-            </section>
+            <div class="tab-contents-container">
 
-            <section>
-                <h2>Wind system</h2>
-                <p>
-                    There is a separate system in charge of updating the aforementioned wind speed that affects all particles.
-                    It operates on cycles, each cycle comprising of two phases: a transition phase and a hold phase.
-                </p>
-                <p>
-                    A cycle is started by assigning random values to both phase lengths,
-                    assigning the new value the transition phase will transition to, and setting a timer variable to track how much time remains in each phase.
-                    The timer is decremented on each frame. When it reaches zero, a check is made - if the current phase is the transition phase,
-                    the timer is reset and the hold phase begins. Otherwise, a new cycle is started and the whole process repeats.
-                </p>
-            </section>
+                <div class="tabs">
+                    <button type="button" data-target="tab_info">INFO</button>
+                    <button type="button" data-target="tab_params" class="active">PARAMS</button>
+                </div>
 
+
+                <div id="tab_info" class="tab-content">
+                    <section>
+                        <h2>How it works</h2>
+                        <p>
+                            A fixed number of particles is generated on startup.
+                            Their position is randomized within the bounds of the screen.
+                            Each particle gets assigned a random size, which relates to the particle's mass.
+                            In the snow effect, larger particles fell slower, here they fall faster.
+                            However, larger particles are still affected by wind more than small ones.
+                        </p>
+                        <p>
+                            Every frame, each particle is updated first, then drawn.
+                            Updating a particle consists of updating the X component of its velocity according to the current wind speed (more on wind later),
+                            then updating its position based on its velocity and the amount of time that passed between frames.
+                            This is to make the animation framerate-independent, meaning even if you run it on your newest gaming PC, it won't look sped up.
+                        </p>
+
+                        <p>
+                            Rain particles are drawn as lines representing their position and their velocity.
+                            The angle of the line is exactly the same as its velocity vector's angle.
+                            The length of any given line is equal to that particle's velocity times a constant time.
+                            Each particle also gets a colour randomly selected from a range of colours.
+                        </p>
+                    </section>
+
+                    <section>
+                        <h2>Wind system</h2>
+                        <p>
+                            There is a separate system in charge of updating the aforementioned wind speed that affects all particles.
+                            It operates on cycles, each cycle comprising of two phases: a transition phase and a hold phase.
+                        </p>
+                        <p>
+                            A cycle is started by assigning random values to both phase lengths,
+                            assigning the new value the transition phase will transition to, and setting a timer variable to track how much time remains in each phase.
+                            The timer is decremented on each frame. When it reaches zero, a check is made - if the current phase is the transition phase,
+                            the timer is reset and the hold phase begins. Otherwise, a new cycle is started and the whole process repeats.
+                        </p>
+                    </section>
+                </div>
+
+                <div id="tab_params" class="tab-content active">
+
+
+                    <!--
+                        RAIN EFFECT PARAMS
+                        {
+                            particles: {
+                                count: 50,
+                                sizeRange: new Range(2, 8),
+                                brightnessRange: new Range(255 / 5, 255),
+                                vyRange: new Range(1080 / 6, 1080 / 1.5),
+                                windFactorRange: new Range(0.3, 1)
+                            },
+                            wind: {
+                                vxRange: new Range(1920 / 5, 1920 / 10),
+                                holdDurRange: new Range(0.5, 2),
+                                transitionDurRange: new Range(1, 4),
+                                printStateChanges: false
+                            }
+                        };
+                    -->
+
+                    <section>
+                        <h2>Particle parameters</h2>
+
+                        <div class="input-field">
+                            <label>Count</label>
+                            <input type="number" min="1" max="500" step="1" name="particles.count" data-type="int" />
+                        </div>
+
+                        <div class="double-field">
+                            <label>Size range</label>
+                            <div class="input-field">
+                                <label>Smallest</label>
+                                <input type="number" min="1" max="100" step="1" name="particles.sizeRange.min" />
+                            </div>
+                            <div class="input-field">
+                                <label>Largest</label>
+                                <input type="number" min="1" max="100" step="1" name="particles.sizeRange.max" />
+                            </div>
+                        </div>
+
+                        <div class="double-field">
+                            <label>Vertical velocity range</label>
+                            <div class="input-field">
+                                <label>Smallest</label>
+                                <input type="number" min="-720" max="720" step="1" name="particles.vyRange.max" />
+                            </div>
+                            <div class="input-field">
+                                <label>Largest</label>
+                                <input type="number" min="-720" max="720" step="1" name="particles.vyRange.min" />
+                            </div>
+                        </div>
+
+                        <div class="double-field">
+                            <label>Drag range</label>
+                            <div class="input-field">
+                                <label>Smallest</label>
+                                <input type="number" min="-1" max="1" step="0.1" name="particles.windFactorRange.min" />
+                            </div>
+                            <div class="input-field">
+                                <label>Largest</label>
+                                <input type="number" min="-1" max="1" step="0.1" name="particles.windFactorRange.max" />
+                            </div>
+                        </div>
+
+                    </section>
+
+                    <section>
+                        <h2>Wind parameters</h2>
+
+                        <div class="double-field">
+                            <label>Speed range</label>
+                            <div class="input-field">
+                                <label>Between</label>
+                                <input type="number" min="-720" max="720" step="1" name="wind.vxRange.max" />
+                            </div>
+                            <div class="input-field">
+                                <label>And</label>
+                                <input type="number" min="-720" max="720" step="1" name="wind.vxRange.min" />
+                            </div>
+                        </div>
+
+                        <div class="double-field">
+                            <label>Hold phase duration range</label>
+                            <div class="input-field">
+                                <label>Between</label>
+                                <input type="number" min="0.1" max="20" step="0.1" name="wind.holdDurRange.max" />
+                            </div>
+                            <div class="input-field">
+                                <label>And</label>
+                                <input type="number" min="0.1" max="20" step="0.1" name="wind.holdDurRange.min" />
+                            </div>
+                        </div>
+
+                        <div class="double-field">
+                            <label>Transition phase duration range</label>
+                            <div class="input-field">
+                                <label>Between</label>
+                                <input type="number" min="0.1" max="20" step="0.1" name="wind.transitionDurRange.max" />
+                            </div>
+                            <div class="input-field">
+                                <label>And</label>
+                                <input type="number" min="0.1" max="20" step="0.1" name="wind.transitionDurRange.min" />
+                            </div>
+                        </div>
+
+                    </section>
+
+
+                    <p class="text-center">
+                        <button id="btn_reset_params" type="button" class="btn flat">
+                            Reset to default
+                        </button>
+                    </p>
+
+
+                </div>
+
+            </div>
         </div>
 
     </div>
@@ -88,7 +219,14 @@
 
     <script src="../js/particle-fx/rain-particle-effect.js"></script>
 
-    <script src="../js/pages/examples/rain.js"></script>
+    <script src="../js/pages/examples/examples.js"></script>
+
+    <!-- function responsible for initializing the effect showcased on this page-->
+    <script>
+        function initEffect(params) {
+            return new RainParticleEffect('#cnv', params);
+        }
+    </script>
 
 </body>
 </html>

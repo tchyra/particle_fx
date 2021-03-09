@@ -34,31 +34,211 @@
                 </a>
                 Volcano
             </h1>
-            <section>
-                <h2>How it works</h2>
-                <p>
-                    This effect works differently than the other two.
-                    The nubmer of particles is not constant, but there is a limit to how many particles can exist at any given moment.
-                    Instead of all spawning at startup, particles are spawned in waves.
-                    The delay between waves and as how many particles spawn in each wave are both randomized.
-                </p>
-                <p>
-                    All particles spawn at the same point. Each one is given its own randomized start colour, end colour, cooldown duration, starting velocity and mass.
-                    Mass affects how fast the particle falls, but also its size, which in turn affects how much the particle is slowed down by drag.
-                </p>
-                <p>
-                    Each particle's velocity is affected by gravity vertically and air drag horizontally.
-                    After that, their position is affected by their velocity.
-                </p>
-                <p>
-                    When particles fall below the bottom of the screen, they despawn, freeing up slots for new particles to spawn in.
-                    If there are no free slots for all particles in a spawnwave, the wave will only spawn as many particles as there are available slots.
-                </p>
-                <p>
-                    Finally, the colour of each particle is updated based on how much time passed since it spawned relative to the cooldown duration.
-                    The colour is a linear interpolation between the start and end colours.
-                </p>
-            </section>
+
+            <div class="tabs">
+                <button type="button" data-target="tab_info">INFO</button>
+                <button type="button" data-target="tab_params" class="active">PARAMS</button>
+            </div>
+
+            <div class="tab-contents-container">
+
+                <div id="tab_info" class="tab-content">
+
+                    <section>
+                        <h2>How it works</h2>
+                        <p>
+                            This effect works differently than the other two.
+                            The nubmer of particles is not constant, but there is a limit to how many particles can exist at any given moment.
+                            Instead of all spawning at startup, particles are spawned in waves.
+                            The delay between waves and as how many particles spawn in each wave are both randomized.
+                        </p>
+                        <p>
+                            All particles spawn at the same point. Each one is given its own randomized start colour, end colour, cooldown duration, starting velocity and mass.
+                            Mass affects how fast the particle falls, but also its size, which in turn affects how much the particle is slowed down by drag.
+                        </p>
+                        <p>
+                            Each particle's velocity is affected by gravity vertically and air drag horizontally.
+                            After that, their position is affected by their velocity.
+                        </p>
+                        <p>
+                            When particles fall below the bottom of the screen, they despawn, freeing up slots for new particles to spawn in.
+                            If there are no free slots for all particles in a spawnwave, the wave will only spawn as many particles as there are available slots.
+                        </p>
+                        <p>
+                            Finally, the colour of each particle is updated based on how much time passed since it spawned relative to the cooldown duration.
+                            The colour is a linear interpolation between the start and end colours.
+                        </p>
+                    </section>
+
+                </div>
+
+                <div id="tab_params" class="tab-content active">
+
+                    <!--
+                        VOLCANO EFFECT PARAMS
+                        {
+                            particles: {
+                                maxCount: 200,
+                                massRange: new Range(2, 8),
+                                sizeRange: new Range(2, 8),
+                                dragRange: new Range(0.5, 1),
+
+                                launchVxRange: new Range(-200, 200),
+                                launchVyRange: new Range(300, 500),
+
+                                startColorRange: new ColorRange('#FCC00C', '#F45313'),
+                                endColorRange: new ColorRange('#280404', '#99150c'),
+                                cooldownDurRange: new Range(0.5, 4)
+                            },
+                            gravityForce: 100,
+                            airDecel: 0.5,
+                            spXFraction: 0.5,
+                            spYFraction: 0.5,
+                            spawnwaveDelayRange: new Range(0.1, 1),
+                            spawnCountRange: new Range(20, 31)
+                        };
+                    -->
+
+                    <section>
+                        <h2>Particle parameters</h2>
+
+                        <div class="input-field">
+                            <label>Max count</label>
+                            <input type="number" min="1" max="500" step="1" name="particles.maxCount" data-type="int" />
+                        </div>
+
+                        <div class="double-field">
+                            <label>Mass range</label>
+                            <div class="input-field">
+                                <label>Lightest</label>
+                                <input type="number" min="0.1" max="100" step="1" name="particles.massRange.min" />
+                            </div>
+                            <div class="input-field">
+                                <label>Heaviest</label>
+                                <input type="number" min="0.1" max="100" step="1" name="particles.massRange.max" />
+                            </div>
+                        </div>
+
+                        <div class="double-field">
+                            <label>Size range</label>
+                            <div class="input-field">
+                                <label>Lightest</label>
+                                <input type="number" min="1" max="100" step="1" name="particles.sizeRange.min" />
+                            </div>
+                            <div class="input-field">
+                                <label>Heaviest</label>
+                                <input type="number" min="1" max="100" step="1" name="particles.sizeRange.max" />
+                            </div>
+                        </div>
+
+                        <div class="double-field">
+                            <label>Drag range</label>
+                            <div class="input-field">
+                                <label>Lightest</label>
+                                <input type="number" min="0.1" max="1" step="0.1" name="particles.dragRange.min" />
+                            </div>
+                            <div class="input-field">
+                                <label>Heaviest</label>
+                                <input type="number" min="0.1" max="1" step="0.1" name="particles.dragRange.max" />
+                            </div>
+                        </div>
+
+                        <div class="double-field">
+                            <label>Cooldown duration range</label>
+                            <div class="input-field">
+                                <label>Between</label>
+                                <input type="number" min="0.1" max="20" step="1" name="particles.cooldownDurRange.min" />
+                            </div>
+                            <div class="input-field">
+                                <label>And</label>
+                                <input type="number" min="0.1" max="20" step="1" name="particles.cooldownDurRange.max" />
+                            </div>
+                        </div>
+
+                        <div class="double-field">
+                            <label>Launch horizontal velocity range</label>
+                            <div class="input-field">
+                                <label>Between</label>
+                                <input type="number" min="-1000" max="1000" step="1" name="particles.launchVxRange.min" />
+                            </div>
+                            <div class="input-field">
+                                <label>And</label>
+                                <input type="number" min="-1000" max="1000" step="1" name="particles.launchVxRange.max" />
+                            </div>
+                        </div>
+
+                        <div class="double-field">
+                            <label>Launch vertical velocity range</label>
+                            <div class="input-field">
+                                <label>Between</label>
+                                <input type="number" min="-1000" max="1000" step="1" name="particles.launchVyRange.min" />
+                            </div>
+                            <div class="input-field">
+                                <label>And</label>
+                                <input type="number" min="-1000" max="1000" step="1" name="particles.launchVyRange.max" />
+                            </div>
+                        </div>
+
+                    </section>
+
+                    <section>
+                        <h2>Environment parameters</h2>
+
+                        <div class="input-field">
+                            <label>Gravity force</label>
+                            <input type="number" min="-500" max="500" step="1" name="gravityForce" />
+                        </div>
+
+                        <div class="input-field">
+                            <label>Air deceleration</label>
+                            <input type="number" min="0.1" max="0.5" step="1" name="airDecel" />
+                        </div>
+
+                        <div class="input-field">
+                            <label>Spawn point X fraction</label>
+                            <input type="number" min="0" max="1" step="0.1" name="spXFraction" />
+                        </div>
+
+                        <div class="input-field">
+                            <label>Spawn point Y fraction</label>
+                            <input type="number" min="0" max="1" step="0.1" name="spYFraction" />
+                        </div>
+
+                        <div class="double-field">
+                            <label>Spawnwave delay range</label>
+                            <div class="input-field">
+                                <label>Between</label>
+                                <input type="number" min="0.1" max="20" step="1" name="spawnwaveDelayRange.min" />
+                            </div>
+                            <div class="input-field">
+                                <label>And</label>
+                                <input type="number" min="0.1" max="20" step="1" name="spawnwaveDelayRange.max" />
+                            </div>
+                        </div>
+
+                        <div class="double-field">
+                            <label>Spawn count range</label>
+                            <div class="input-field">
+                                <label>Between</label>
+                                <input type="number" min="1" max="100" step="1" name="spawnCountRange.min" data-type="int" />
+                            </div>
+                            <div class="input-field">
+                                <label>And</label>
+                                <input type="number" min="1" max="100" step="1" name="spawnCountRange.max" data-type="int"/>
+                            </div>
+                        </div>
+
+                    </section>
+
+                    <p class="text-center">
+                        <button id="btn_reset_params" type="button" class="btn flat">
+                            Reset to default
+                        </button>
+                    </p>
+
+                </div>
+
+            </div>
 
         </div>
 
@@ -76,7 +256,14 @@
 
     <script src="../js/particle-fx/volcano-particle-effect.js"></script>
 
-    <script src="../js/pages/examples/volcano.js"></script>
+    <script src="../js/pages/examples/examples.js"></script>
+
+    <!-- function responsible for initializing the effect showcased on this page-->
+    <script>
+        function initEffect(params) {
+            return new VolcanoParticleEffect('#cnv', params);
+        }
+    </script>
 
 </body>
 </html>

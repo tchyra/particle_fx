@@ -1,7 +1,3 @@
-﻿
-var effect;
-
-document.addEventListener('DOMContentLoaded', () => {
-
-    effect = new SnowParticleEffect('#cnv');
-});
+﻿function initEffect(params) {
+    return new SnowParticleEffect('#cnv', params);
+}

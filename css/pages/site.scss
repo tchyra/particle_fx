@@ -144,21 +144,26 @@ code {
     padding: 0 32px;
     color: $c-text-lght-pri;
     border-radius: 8px;
-    border: 2px solid $c-border-pri;
+    border: $btn-border-width solid $c-border-pri;
     margin: 8px;
     cursor: pointer;
-    font-weight: bold;
+    font-weight: normal;
     user-select: none;
     text-decoration: none;
     transition: transform ease-in-out 0.1s, background-color linear 0.1s;
+    background: none;
+    font-family: $font-family-body;
+    font-size: $font-size-body;
+    outline: none;
 
     &:hover {
         transform: scale(1.02);
         /*background-color: rgba(#fff, 0.05);*/
     }
 
-    &:active {
+    &:active, &.flat:hover:active {
         transform: scale(0.98);
+        transition-timing-function: ease-out;
         background-color: #000;
     }
 
@@ -172,6 +177,15 @@ code {
         &.right {
             margin-left: 8px;
             margin-right: 0;
+        }
+    }
+
+    &.flat {
+        border: none;
+
+        &:hover {
+            background-color: $c-hover-bg;
+            transform: none;
         }
     }
 }

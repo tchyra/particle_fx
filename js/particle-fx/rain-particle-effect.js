@@ -7,7 +7,7 @@ class RainParticleEffect extends ParticleEnv {
                 count: 50,
                 sizeRange: new Range(1, 4),
                 colorRange: new ColorRange('#527A91', '#2E3D89'),
-                vyRange: new Range(1080 / 0.5, 1080 / 1.4),
+                vyRange: new Range(2160, 771),
                 windFactorRange: new Range(0.3, 1),
                 length: 0.1
             },
