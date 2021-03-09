@@ -8,7 +8,10 @@
   max-width: 492px;
   width: 100%;
   padding: 80px 48px;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  transition: transform ease-in 0.33s; }
+  .sidebar-container.hidden {
+    transform: translateX(-100%); }
   .sidebar-container > .up-indicator {
     display: none;
     text-align: center; }
@@ -19,9 +22,18 @@
     border: 1px solid rgba(255, 255, 255, 0.15);
     box-sizing: border-box;
     overflow: hidden; }
-    .sidebar-container > .sidebar > h1 {
-      margin: 32px;
-      margin-bottom: 16px; }
+    .sidebar-container > .sidebar > .header {
+      display: flex;
+      flex-direction: row;
+      margin: 32px 24px;
+      margin-bottom: 16px;
+      font-size: 0;
+      align-items: center; }
+      .sidebar-container > .sidebar > .header > h1 {
+        margin-bottom: 0;
+        flex-grow: 1;
+        /*margin-left: 8px;*/
+        text-align: center; }
 
 .canvas-container {
   position: fixed;
@@ -38,6 +50,8 @@
     padding-left: 16px;
     padding-right: 16px;
     margin: auto; }
+    .sidebar-container.hidden {
+      transform: translateY(100%); }
     .sidebar-container > .up-indicator {
       display: block; }
     .sidebar-container > .sidebar {
@@ -47,7 +61,8 @@
 
 .tabs {
   display: flex;
-  flex-direction: row; }
+  flex-direction: row;
+  padding: 0 32px; }
   .tabs > button {
     background: none;
     border: none;

@@ -27,12 +27,16 @@
         </div>
 
         <div class="sidebar">
-            <h1>
+
+            <div class="header">
                 <a href="../index.html" class="btn-icon">
                     <img class="icon" src="../img/icons/arrow-left.svg" />
                 </a>
-                Rain
-            </h1>
+                <h1>Rain</h1>
+                <button id="btn_fullscreen" type="button" class="btn-icon right">
+                    <img class="icon" src="../img/icons/fullscreen.svg" />
+                </button>
+            </div>
 
             <div class="tab-contents-container">
 
@@ -86,23 +90,23 @@
 
 
                     <!--
-                        RAIN EFFECT PARAMS
-                        {
-                            particles: {
-                                count: 50,
-                                sizeRange: new Range(2, 8),
-                                brightnessRange: new Range(255 / 5, 255),
-                                vyRange: new Range(1080 / 6, 1080 / 1.5),
-                                windFactorRange: new Range(0.3, 1)
-                            },
-                            wind: {
-                                vxRange: new Range(1920 / 5, 1920 / 10),
-                                holdDurRange: new Range(0.5, 2),
-                                transitionDurRange: new Range(1, 4),
-                                printStateChanges: false
-                            }
-                        };
-                    -->
+                RAIN EFFECT PARAMS
+                {
+                    particles: {
+                        count: 50,
+                        sizeRange: new Range(2, 8),
+                        brightnessRange: new Range(255 / 5, 255),
+                        vyRange: new Range(1080 / 6, 1080 / 1.5),
+                        windFactorRange: new Range(0.3, 1)
+                    },
+                    wind: {
+                        vxRange: new Range(1920 / 5, 1920 / 10),
+                        holdDurRange: new Range(0.5, 2),
+                        transitionDurRange: new Range(1, 4),
+                        printStateChanges: false
+                    }
+                };
+            -->
 
                     <section>
                         <h2>Particle parameters</h2>

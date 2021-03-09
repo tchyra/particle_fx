@@ -17,6 +17,11 @@ $sidebar-container-max-width: $page-sidebar-max-width + $page-grid-col-spacing *
     width: 100%;
     padding: $page-vert-spacing $page-grid-col-spacing;
     box-sizing: border-box;
+    transition: transform ease-in 0.33s;
+
+    &.hidden {
+        transform: translateX(-100%);
+    }
 
     > .up-indicator {
         display: none;
@@ -31,9 +36,20 @@ $sidebar-container-max-width: $page-sidebar-max-width + $page-grid-col-spacing *
         box-sizing: border-box;
         overflow: hidden;
 
-        > h1 {
-            margin: $sidebar-padding;
+        > .header {
+            display: flex;
+            flex-direction: row;
+            margin: $sidebar-padding $sidebar-padding - 8px;
             margin-bottom: 16px;
+            font-size: 0;
+            align-items: center;
+
+            > h1 {
+                margin-bottom: 0;
+                flex-grow: 1;
+                /*margin-left: 8px;*/
+                text-align: center;
+            }
         }
     }
 }
@@ -58,6 +74,10 @@ $sidebar-container-max-width: $page-sidebar-max-width + $page-grid-col-spacing *
         padding-right: 16px;
         margin: auto;
 
+        &.hidden {
+            transform: translateY(100%);
+        }
+
         > .up-indicator {
             display: block;
         }
@@ -80,6 +100,7 @@ $tab-corner-radius: 8px;
 .tabs {
     display: flex;
     flex-direction: row;
+    padding: 0 $sidebar-padding;
 
     > button {
         background: none;

@@ -5,7 +5,17 @@ var els = {
     btnResetParams: {
         id: 'btn_reset_params',
         on_click: btnResetParams_click
-    }
+    },
+    btnFullscreen: {
+        id: 'btn_fullscreen',
+        on_click: btnFullscreen_click
+    },
+    sidebarContainer: '.sidebar-container',
+    cnv: {
+        id: 'cnv',
+        on_click: cnv_click
+    },
+    topBar: '.top-bar'
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -15,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     editor = new ParamEditor(effect);
 
     initEls(els);
+    document.addEventListener('keydown', document_keydown);
 });
 
 function initTabs() {
@@ -150,8 +161,37 @@ function ParamEditor(effect) {
     console.groupEnd();
 }
 
-function btnResetParams_click() {
+function btnResetParams_click(ev) {
     console.clear();
     effect = initEffect();
     editor = new ParamEditor(effect);
 }
+
+function setFullscreenMode(enable) {
+
+    if (enable) {
+        els.sidebarContainer.classList.add('hidden');
+        document.scrollingElement.style.overflow = 'hidden';
+        els.topBar.classList.add('hidden');
+    } else {
+        els.sidebarContainer.classList.remove('hidden');
+        document.scrollingElement.style.overflow = 'auto';
+        els.topBar.classList.remove('hidden');
+    }
+}
+
+function btnFullscreen_click(ev) {
+    setFullscreenMode(true);
+}
+
+function cnv_click(ev) {
+    setFullscreenMode(false);
+}
+
+function document_keydown(ev) {
+    if (ev.keyCode === 27) {
+        // escape key
+        setFullscreenMode(false);
+    }
+}
+
