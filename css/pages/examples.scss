@@ -226,6 +226,21 @@ $tab-corner-radius: 8px;
             }
         }
 
+        &[type=color] {
+            padding: 0;
+            height: 28px;
+
+            &::-webkit-color-swatch-wrapper {
+                padding: 4px;
+            }
+
+            &::-webkit-color-swatch {
+                display: inline-block;
+                border: none;
+                border-radius: 4px;
+            }
+        }
+
         &.modified {
             border-style: dotted;
             border-color: $c-accent;

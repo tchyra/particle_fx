@@ -89,25 +89,6 @@
                 <div id="tab_params" class="tab-content active">
 
 
-                    <!--
-                        RAIN EFFECT PARAMS
-                        {
-                            particles: {
-                                count: 50,
-                                sizeRange: new Range(2, 8),
-                                brightnessRange: new Range(255 / 5, 255),
-                                vyRange: new Range(1080 / 6, 1080 / 1.5),
-                                windFactorRange: new Range(0.3, 1)
-                            },
-                            wind: {
-                                vxRange: new Range(1920 / 5, 1920 / 10),
-                                holdDurRange: new Range(0.5, 2),
-                                transitionDurRange: new Range(1, 4),
-                                printStateChanges: false
-                            }
-                        };
-                    -->
-
                     <section>
                         <h2>Particle parameters</h2>
 
@@ -149,6 +130,18 @@
                             <div class="input-field">
                                 <label>Largest</label>
                                 <input type="number" min="-1" max="1" step="0.1" name="particles.windFactorRange.max" />
+                            </div>
+                        </div>
+
+                        <div class="double-field">
+                            <label>Color range</label>
+                            <div class="input-field">
+                                <label>From</label>
+                                <input type="color" name="particles.colorRange.from" />
+                            </div>
+                            <div class="input-field">
+                                <label>To</label>
+                                <input type="color" name="particles.colorRange.to" />
                             </div>
                         </div>
 

@@ -17,23 +17,38 @@ class Color {
         return new Color(r, g, b);
     }
 
+    toHex() {
+        return '#' + this.r.toString(16).padStart(2, 0)
+            + this.g.toString(16).padStart(2, 0)
+            + this.b.toString(16).padStart(2, 0);
+    }
+
     toString() {
         return `rgb(${this.r},${this.g},${this.b})`
     }
 }
 
 class ColorRange {
+
     constructor(from, to) {
 
         if (typeof from === 'string')
-            from = Color.fromHex(from);
+            this.from = Color.fromHex(from);
+        else
+            this.from = from;
 
         if (typeof to === 'string')
-            to = Color.fromHex(to);
+            this.to = Color.fromHex(to);
+        else
+            this.to = to;
 
-        this.rRange = new Range(from.r, to.r);
-        this.gRange = new Range(from.g, to.g);
-        this.bRange = new Range(from.b, to.b);
+        this.refreshRGBRanges();
+    }
+
+    refreshRGBRanges() {
+        this.rRange = new Range(this.from.r, this.to.r);
+        this.gRange = new Range(this.from.g, this.to.g);
+        this.bRange = new Range(this.from.b, this.to.b);
     }
 
     roll() {

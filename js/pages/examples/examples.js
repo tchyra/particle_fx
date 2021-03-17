@@ -65,13 +65,8 @@ function ParamEditor(effect) {
 
         let paramVal = parent[paramName];
 
-        if (typeof (paramVal) === 'object') {
+        if (typeof (paramVal) !== 'object' || (typeof Color === 'function' && paramVal instanceof Color)) {
 
-            for (var childParamName in paramVal) {
-                _initForParam(paramVal, _concatPath(path, paramName), childParamName);
-            }
-
-        } else {
             let paramPath = _concatPath(path, paramName);
 
             let input = document.querySelector('input[name="' + paramPath + '"]');
@@ -82,6 +77,11 @@ function ParamEditor(effect) {
 
             } else {
                 console.warn('[' + paramPath + ']: no editor control found.')
+            }
+
+        } else {
+            for (var childParamName in paramVal) {
+                _initForParam(paramVal, _concatPath(path, paramName), childParamName);
             }
         }
 
@@ -98,16 +98,29 @@ function ParamEditor(effect) {
             modified: false
         };
 
-        input.value = paramVal;
+        if (input.type === 'color') {
+            input.value = paramVal.toHex();
+        } else {
+            input.value = paramVal;
+        }
 
         input.addEventListener('change', ev => {
-            input.value = Math.max(input.min, Math.min(input.valueAsNumber, input.max))
 
-            if (attachment.isInt) {
-                input.value = Math.floor(input.value);
+            if (input.type === 'number') {
+
+                input.value = Math.max(input.min, Math.min(input.valueAsNumber, input.max))
+
+                if (attachment.isInt) {
+                    input.value = Math.floor(input.value);
+                }
+
+                attachment.modified = input.valueAsNumber !== attachment.startVal;
+
+            } else if (input.type === 'color') {
+
+                attachment.modified = input.value !== attachment.startVal.toHex();
             }
 
-            attachment.modified = input.valueAsNumber !== attachment.startVal;
 
             if (self.autoSave) {
                 if (attachment.modified) {
@@ -121,7 +134,16 @@ function ParamEditor(effect) {
     }
 
     function _saveAttachment(attachment) {
-        attachment.startVal = attachment.parent[attachment.paramName] = attachment.input.valueAsNumber;
+        if (attachment.input.type === 'color') {
+
+            attachment.startVal = attachment.parent[attachment.paramName] = Color.fromHex(attachment.input.value);
+
+            if (attachment.parent instanceof ColorRange)
+                attachment.parent.refreshRGBRanges();
+
+        } else {
+            attachment.startVal = attachment.parent[attachment.paramName] = attachment.input.valueAsNumber;
+        }
         attachment.modified = false;
         attachment.input.classList.remove('modified');
     }
