@@ -285,10 +285,12 @@
 
     <script src="../js/particle-fx/volcano-particle-effect.js"></script>
 
-    <script src="../js/pages/examples/examples.js"></script>
+    <script src="../js/pages/examples.js"></script>
 
     <!-- function responsible for initializing the effect showcased on this page-->
     <script>
+        const effectName = 'volcano';
+
         function initEffect(params) {
             return new VolcanoParticleEffect('#cnv', params);
         }

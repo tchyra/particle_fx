@@ -19,6 +19,7 @@ var els = {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+
     effect = initEffect();
 
     initTabs();

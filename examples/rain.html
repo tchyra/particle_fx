@@ -221,10 +221,12 @@
 
     <script src="../js/particle-fx/rain-particle-effect.js"></script>
 
-    <script src="../js/pages/examples/examples.js"></script>
+    <script src="../js/pages/examples.js"></script>
 
     <!-- function responsible for initializing the effect showcased on this page-->
     <script>
+        const effectName = 'rain';
+
         function initEffect(params) {
             return new RainParticleEffect('#cnv', params);
         }
