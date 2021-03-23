@@ -20,13 +20,13 @@ var els = {
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    effect = initEffect();
-
-    initTabs();
-    editor = new ParamEditor(effect);
-
     initEls(els);
+    initTabs();
     document.addEventListener('keydown', document_keydown);
+
+    effect = initEffect();
+    editor = new ParamEditor('tab_params', effect);
+
 });
 
 function initTabs() {
@@ -48,140 +48,6 @@ function initTabs() {
             });
         });
     });
-}
-
-function ParamEditor(effect) {
-
-    var self = this;
-    this.autoSave = true;
-
-    // private functions
-
-    function _concatPath(path, paramName) {
-        if (!path) return paramName
-        else return path + '.' + paramName;
-    }
-
-    function _initForParam(parent, path, paramName) {
-
-        let paramVal = parent[paramName];
-
-        if (typeof (paramVal) !== 'object' || (typeof Color === 'function' && paramVal instanceof Color)) {
-
-            let paramPath = _concatPath(path, paramName);
-
-            let input = document.querySelector('input[name="' + paramPath + '"]');
-
-            if (input) {
-                _initForInput(parent, path, paramName, paramVal, paramPath, input);
-                console.log('OK [' + paramPath + '] =', paramVal);
-
-            } else {
-                console.warn('[' + paramPath + ']: no editor control found.')
-            }
-
-        } else {
-            for (var childParamName in paramVal) {
-                _initForParam(paramVal, _concatPath(path, paramName), childParamName);
-            }
-        }
-
-    }
-
-    function _initForInput(parent, path, paramName, paramVal, paramPath, input) {
-
-        let attachment = self.attachments[paramPath] = {
-            input,
-            isInt: input.getAttribute('data-type') === 'int',
-            startVal: paramVal,
-            parent,
-            paramName,
-            modified: false
-        };
-
-        if (input.type === 'color') {
-            input.value = paramVal.toHex();
-        } else {
-            input.value = paramVal;
-        }
-
-        input.addEventListener('change', ev => {
-
-            if (input.type === 'number') {
-
-                input.value = Math.max(input.min, Math.min(input.valueAsNumber, input.max))
-
-                if (attachment.isInt) {
-                    input.value = Math.floor(input.value);
-                }
-
-                attachment.modified = input.valueAsNumber !== attachment.startVal;
-
-            } else if (input.type === 'color') {
-
-                attachment.modified = input.value !== attachment.startVal.toHex();
-            }
-
-
-            if (self.autoSave) {
-                if (attachment.modified) {
-                    _saveAttachment(attachment);
-                    effect.restart();
-                }
-            } else {
-                input.classList.toggle('modified', attachment.modified);
-            }
-        });
-    }
-
-    function _saveAttachment(attachment) {
-        if (attachment.input.type === 'color') {
-
-            attachment.startVal = attachment.parent[attachment.paramName] = Color.fromHex(attachment.input.value);
-
-            if (attachment.parent instanceof ColorRange)
-                attachment.parent.refreshRGBRanges();
-
-        } else {
-            attachment.startVal = attachment.parent[attachment.paramName] = attachment.input.valueAsNumber;
-        }
-        attachment.modified = false;
-        attachment.input.classList.remove('modified');
-    }
-
-    // public methods
-
-    this.save = function () {
-        let anyModified = false;
-
-        for (let path in self.attachments) {
-            let attachment = self.attachments[path];
-
-            if (attachment.modified) {
-                _saveAttachment(attachment);
-                anyModified = true;
-            }
-        }
-
-        if (anyModified) {
-            effect.restart();
-        }
-    }
-
-    // initialisation
-
-    console.group('param editor init');
-
-    this.effect = effect;
-    this.attachments = {};
-
-    this.editorParams = {};
-
-    for (var paramName in effect.params) {
-        _initForParam(effect.params, '', paramName);
-    }
-
-    console.groupEnd();
 }
 
 function btnResetParams_click(ev) {

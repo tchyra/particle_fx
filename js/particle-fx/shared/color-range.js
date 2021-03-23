@@ -17,7 +17,7 @@ class Color {
         return new Color(r, g, b);
     }
 
-    toHex() {
+    toHexString() {
         return '#' + this.r.toString(16).padStart(2, 0)
             + this.g.toString(16).padStart(2, 0)
             + this.b.toString(16).padStart(2, 0);
