@@ -1,68 +1,27 @@
 ﻿
 class ParamEditorAttachment {
 
-    static canCreateFor(obj) {
-        return typeof obj === 'number'
-            || (typeof Color !== 'undefined' && obj instanceof Color)
+    static canCreateForObject(obj) {
+        return typeof Color === 'function' && obj instanceof Color;
     }
 
-    static getTypeFor(obj) {
+    // selects an attachment subclass for a given object
+    static createAttachmentFor(parent, propName, input) {
+        let obj = parent[propName];
+
         if (typeof obj === 'number')
-            return 'number';
-        else if (typeof Color !== 'undefined' && obj instanceof Color)
-            return 'color';
+            return new ParamEditorNumberAttachment(parent, propName, input);
+        else if (typeof Color === 'function' && obj instanceof Color)
+            return new ParamEditorColorAttachment(parent, propName, input);
         else
-            return null;
+            throw new Error('Cannot create an attachment for ', obj);
     }
 
     constructor(parent, propName, input) {
         this.parent = parent;
         this.propName = propName;
         this.input = input;
-        this.type = ParamEditorAttachment.getTypeFor(this.valueInEffect);
-
-        this.input.addEventListener('change', () => {
-            this.copyFromInputToEffect();
-            if (typeof this.onCopiedToEffect === 'function')
-                this.onCopiedToEffect();
-        });
-
-        this.copyFromEffectToInput();
     }
-
-    _copy(toEffect) {
-        if (this.type === 'number') {
-
-            if (toEffect)
-                this.valueInEffect = this.input.valueAsNumber;
-            else
-                this.input.valueAsNumber = this.valueInEffect;
-
-        } else if (this.type === 'color') {
-
-            if (toEffect) {
-
-                // create colour from input to effect
-                this.valueInEffect = Color.fromHex(this.input.value);
-
-                if (typeof ColorRange !== 'undefined' && this.parent instanceof ColorRange) {
-                    this.parent.refreshRGBRanges();
-                }
-
-            } else {
-                this.input.value = this.valueInEffect.toHexString();
-            }
-
-        } else {
-            if (toEffect)
-                this.valueInEffect = this.input.value;
-            else
-                this.input.value = this.valueInEffect;
-        }
-    }
-
-    copyFromInputToEffect() { this._copy(true); }
-    copyFromEffectToInput() { this._copy(false); }
 
     get valueInEffect() {
         return this.parent[this.propName];
@@ -70,6 +29,51 @@ class ParamEditorAttachment {
 
     set valueInEffect(value) {
         this.parent[this.propName] = value;
+    }
+
+    // ABSTRACT METHODS
+
+    copyFromInputToEffect() {
+        throw new Error('Classes deriving from ParamEditorAttachment must implement copyFromInputToEffect().');
+    }
+
+    copyFromEffectToInput() {
+        throw new Error('Classes deriving from ParamEditorAttachment must implement copyFromEffectToInput().');
+    }
+}
+
+class ParamEditorNumberAttachment extends ParamEditorAttachment {
+
+    constructor(parent, propName, input) {
+        super(parent, propName, input);
+    }
+
+    copyFromEffectToInput() {
+        this.input.valueAsNumber = this.valueInEffect;
+    }
+
+    copyFromInputToEffect() {
+        this.valueInEffect = this.input.valueAsNumber;
+    }
+}
+
+class ParamEditorColorAttachment extends ParamEditorAttachment {
+
+    constructor(parent, propName, input) {
+        super(parent, propName, input);
+    }
+
+    copyFromEffectToInput() {
+        this.input.value = this.valueInEffect.toHexString();
+    }
+
+    copyFromInputToEffect() {
+        // create colour from input to effect
+        this.valueInEffect = Color.fromHex(this.input.value);
+
+        if (typeof ColorRange !== 'undefined' && this.parent instanceof ColorRange) {
+            this.parent.refreshRGBRanges();
+        }
     }
 }
 
@@ -87,7 +91,7 @@ class ParamEditor {
         this.container = ParamEditor.getEl(container);
 
         if (!(effect instanceof ParticleEnv))
-            throw new Error('effect must derive from ParticleEnv.');
+            throw new Error('Effect must derive from ParticleEnv.');
 
         this.effect = effect;
         this._initAttachments();
@@ -102,7 +106,7 @@ class ParamEditor {
     _initAttachments() {
         this.attachments = {};
 
-        console.groupCollapsed('[EDITOR] init warnings');
+        console.groupCollapsed('[ParamEditor] init log');
 
         for (var childPropName in this.effect.params) {
             this._createAttachments('', this.effect.params, childPropName);
@@ -116,13 +120,29 @@ class ParamEditor {
         let pathToProp = this._combinePath(pathToParent, propName);
         let obj = parent[propName];
 
-        if (ParamEditorAttachment.canCreateFor(parent[propName])) {
+        if (typeof obj !== 'object' || ParamEditorAttachment.canCreateForObject(obj)) {
 
             let input = this.container.querySelector(`[name="${pathToProp}"]`);
             if (input) {
 
-                let attachment = this.attachments[pathToProp] = new ParamEditorAttachment(parent, propName, input);
-                attachment.onCopiedToEffect = () => this.effect.restart();
+                try {
+                    let attachment
+                        = this.attachments[pathToProp]
+                        = ParamEditorAttachment.createAttachmentFor(parent, propName, input);
+
+                    attachment.copyFromEffectToInput();
+
+                    input.addEventListener('change', () => {
+                        attachment.copyFromInputToEffect();
+                        this.effect.restart();
+                    });
+
+                    // log success to console
+                    console.log(`[${pathToProp}]: ${attachment.constructor.name}`);
+
+                } catch (e) {
+                    console.error(`[${pathToProp}]: ${e}`);
+                }
 
             } else {
                 console.warn(`[${pathToProp}]: no editor control found.`)
@@ -141,13 +161,4 @@ class ParamEditor {
         this.effect.restart();
     }
 
-    // loads parameters from local storage using the given name
-    load(name) {
-
-    }
-
-    // saves parameters to local storage using the given name
-    save(name) {
-
-    }
 }
