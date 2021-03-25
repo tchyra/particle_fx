@@ -21,14 +21,7 @@ class SnowParticleEffect extends ParticleEnv {
     }
 
     constructor(targetCnv, params) {
-        super(targetCnv);
-
-        this.params = ParticleEnv.mergeParams(SnowParticleEffect.getDefaultSimulationParams(), params);
-
-        this.wind = new WindSystem(this.params.wind);
-
-        this.start();
-        this._reqNextFrame();
+        super(targetCnv, params);
     }
 
     _createParticle() {
@@ -67,6 +60,8 @@ class SnowParticleEffect extends ParticleEnv {
             this.particles[i] = this._createParticle();
             this._drawParticle(this.particles[i]);
         }
+
+        this.wind = new WindSystem(this.params.wind);
 
         // start the wind system
         this.wind.start();

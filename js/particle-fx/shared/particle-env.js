@@ -12,25 +12,6 @@ class ParticleEnv {
         return null;
     }
 
-    constructor(targetCnv, options) {
-
-        this.cnv = ParticleEnv.getEl(targetCnv);
-        if (!this.cnv)
-            throw 'target canvas must be an element or a selector.';
-
-        this.options = options || {};
-        this.parent = ParticleEnv.getEl(this.options.parent) || this.cnv.parentElement;
-
-        this.ctx = this.cnv.getContext('2d');
-        this.updateCanvasSize();
-
-        let resizeCallback = ev => this.updateCanvasSize(ev);
-        window.addEventListener('resize', resizeCallback);
-
-        this.frameNo = 0;
-        this.prevFrameTimestamp = Date.now();
-    }
-
     static mergeParams(defaultParams, passedParams) {
 
         if (!passedParams) return defaultParams;
@@ -43,7 +24,9 @@ class ParticleEnv {
 
                 // preference was changed from default
                 if (typeof defaultParams[paramName] === 'object'
-                    && !(defaultParams[paramName] instanceof Range)) {
+                    && !(typeof Range === 'function' && defaultParams[paramName] instanceof Range)
+                    && !(typeof Color === 'function' && defaultParams[paramName] instanceof Color)
+                    && !(typeof ColorRange === 'function' && defaultParams[paramName] instanceof ColorRange)) {
                     // go through object properties
                     resultParams[paramName] = ParticleEnv.mergeParams(defaultParams[paramName], passedParams[paramName]);
                 } else {
@@ -57,6 +40,28 @@ class ParticleEnv {
         }
 
         return resultParams;
+    }
+
+    constructor(targetCnv, params) {
+
+        this.cnv = ParticleEnv.getEl(targetCnv);
+        if (!this.cnv)
+            throw 'target canvas must be an element or a selector.';
+
+        this.parent = this.cnv.parentElement;
+
+        this.ctx = this.cnv.getContext('2d');
+        this.updateCanvasSize();
+
+        let resizeCallback = ev => this.updateCanvasSize(ev);
+        window.addEventListener('resize', resizeCallback);
+
+        this.frameNo = 0;
+        this.prevFrameTimestamp = Date.now();
+
+        this.params = ParticleEnv.mergeParams(this.constructor.getDefaultSimulationParams(), params);
+        this.start();
+        this._reqNextFrame();
     }
 
     updateCanvasSize() {

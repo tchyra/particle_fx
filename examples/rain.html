@@ -219,6 +219,7 @@
     <script src="../js/particle-fx/shared/particle-env.js"></script>
     <script src="../js/particle-fx/shared/wind-system.js"></script>
     <script src="../js/particle-fx/shared/param-editor.js"></script>
+    <script src="../js/particle-fx/shared/effect-param-storage.js"></script>
 
     <script src="../js/particle-fx/rain-particle-effect.js"></script>
 
@@ -226,11 +227,7 @@
 
     <!-- function responsible for initializing the effect showcased on this page-->
     <script>
-        const effectName = 'rain';
-
-        function initEffect(params) {
-            return new RainParticleEffect('#cnv', params);
-        }
+        const effectType = RainParticleEffect;
     </script>
 
 </body>

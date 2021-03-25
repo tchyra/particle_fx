@@ -230,6 +230,7 @@
     <script src="../js/particle-fx/shared/particle-env.js"></script>
     <script src="../js/particle-fx/shared/wind-system.js"></script>
     <script src="../js/particle-fx/shared/param-editor.js"></script>
+    <script src="../js/particle-fx/shared/effect-param-storage.js"></script>
 
     <script src="../js/particle-fx/snow-particle-effect.js"></script>
 
@@ -237,11 +238,7 @@
 
     <!-- function responsible for initializing the effect showcased on this page-->
     <script>
-        const effectName = 'snow';
-
-        function initEffect(params) {
-            return new SnowParticleEffect('#cnv', params);
-        }
+        const effectType = SnowParticleEffect;
     </script>
 
 </body>

@@ -104,7 +104,7 @@ class ParamEditor {
 
     // creates attachments for effect params
     _initAttachments() {
-        this.attachments = {};
+        this.attachments = [];
 
         console.groupCollapsed('[ParamEditor] init log');
 
@@ -135,6 +135,9 @@ class ParamEditor {
                     input.addEventListener('change', () => {
                         attachment.copyFromInputToEffect();
                         this.effect.restart();
+
+                        if (typeof this.onChange === 'function')
+                            this.onChange();
                     });
 
                     // log success to console
@@ -156,9 +159,7 @@ class ParamEditor {
 
     }
 
-    _handleInputChange(attachment) {
-        attachment.copyFromInputToEffect();
-        this.effect.restart();
+    recreateAttachments() {
+        this._initAttachments();
     }
-
 }

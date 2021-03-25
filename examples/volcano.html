@@ -283,6 +283,7 @@
     <script src="../js/particle-fx/shared/color-range.js"></script>
     <script src="../js/particle-fx/shared/particle-env.js"></script>
     <script src="../js/particle-fx/shared/param-editor.js"></script>
+    <script src="../js/particle-fx/shared/effect-param-storage.js"></script>
 
     <script src="../js/particle-fx/volcano-particle-effect.js"></script>
 
@@ -290,11 +291,7 @@
 
     <!-- function responsible for initializing the effect showcased on this page-->
     <script>
-        const effectName = 'volcano';
-
-        function initEffect(params) {
-            return new VolcanoParticleEffect('#cnv', params);
-        }
+        const effectType = VolcanoParticleEffect;
     </script>
 
 </body>

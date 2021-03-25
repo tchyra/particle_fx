@@ -18,14 +18,27 @@ var els = {
     topBar: '.top-bar'
 }
 
+var localStorageParamsKey;
+
 document.addEventListener('DOMContentLoaded', () => {
 
     initEls(els);
     initTabs();
     document.addEventListener('keydown', document_keydown);
 
-    effect = initEffect();
+    localStorageParamsKey = effectType.name + '_params'
+
+    // load params from local storage
+    var startParams = EffectParamStorage.loadParamsFromLocalStorage(localStorageParamsKey, effectType.getDefaultSimulationParams())
+
+    console.log('start params', startParams);
+
+    effect = new effectType('#cnv', startParams);
     editor = new ParamEditor('tab_params', effect);
+    editor.onChange = () => {
+        // save params to local storage after editor changes
+        EffectParamStorage.saveParamsToLocalStorage(localStorageParamsKey, effect.params);
+    }
 
 });
 
@@ -51,9 +64,11 @@ function initTabs() {
 }
 
 function btnResetParams_click(ev) {
-    console.clear();
-    effect = initEffect();
-    editor = new ParamEditor(effect);
+    console.log('resetting the params');
+    effect.params = effectType.getDefaultSimulationParams();
+    effect.restart();
+    localStorage.removeItem(localStorageParamsKey);
+    editor.recreateAttachments();
 }
 
 function setFullscreenMode(enable) {

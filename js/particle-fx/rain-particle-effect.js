@@ -21,21 +21,10 @@ class RainParticleEffect extends ParticleEnv {
     }
 
     constructor(targetCnv, params) {
-        super(targetCnv);
-
-        this.params = ParticleEnv.mergeParams(RainParticleEffect.getDefaultSimulationParams(), params);
-
-        this.wind = new WindSystem(this.params.wind);
-
-        this.start();
-        this._reqNextFrame();
+        super(targetCnv, params);
     }
 
     _createParticle() {
-
-        function getGreyRGBString(greyVal) {
-            return `rgb(${[greyVal, greyVal, greyVal].join(',')})`
-        }
 
         // particle params shorthand
         const pp = this.params.particles;
@@ -65,6 +54,7 @@ class RainParticleEffect extends ParticleEnv {
     }
 
     start() {
+
         this.particles = new Array(this.params.particles.count);
 
         // create particles
@@ -72,6 +62,8 @@ class RainParticleEffect extends ParticleEnv {
             this.particles[i] = this._createParticle();
             this._drawParticle(this.particles[i]);
         }
+
+        this.wind = new WindSystem(this.params.wind);
 
         // start the wind system
         this.wind.start();

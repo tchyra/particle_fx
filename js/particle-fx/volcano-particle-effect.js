@@ -27,12 +27,7 @@ class VolcanoParticleEffect extends ParticleEnv {
     }
 
     constructor(targetCnv, params) {
-        super(targetCnv);
-
-        this.params = ParticleEnv.mergeParams(VolcanoParticleEffect.getDefaultSimulationParams(), params);
-
-        this.start();
-        this._reqNextFrame();
+        super(targetCnv, params);
     }
 
     _createParticle() {
