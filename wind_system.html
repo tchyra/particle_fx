@@ -1,0 +1,212 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <meta charset="utf-8" />
+    <title>Wind system</title>
+    <meta name="viewport" content="width=device-width" />
+
+    <link rel="stylesheet" href="css/pages/site.css" />
+    <link rel="stylesheet" href="css/pages/examples.css" />
+
+</head>
+<body>
+
+    <div class="top-bar">
+        <div class="content">
+            <a href="../index.html" class="btn-icon">
+                <img class="icon" src="../img/icons/arrow-left.svg" />
+            </a>
+        </div>
+    </div>
+
+    <div class="sidebar-container">
+
+        <div class="up-indicator">
+            <img class="icon" src="../img/icons/chevron-up.svg" />
+        </div>
+
+        <div class="sidebar">
+
+            <div class="header">
+                <a href="../index.html" class="btn-icon">
+                    <img class="icon" src="../img/icons/arrow-left.svg" />
+                </a>
+                <h1>Wind</h1>
+                <button id="btn_fullscreen" type="button" class="btn-icon right">
+                    <img class="icon" src="../img/icons/fullscreen.svg" />
+                </button>
+            </div>
+
+            <div class="tab-contents-container">
+
+                <div class="tabs">
+                    <button type="button" data-target="tab_info">INFO</button>
+                    <button type="button" data-target="tab_params" class="active">PARAMS</button>
+                </div>
+
+
+                <div id="tab_info" class="tab-content">
+                    <section>
+                        <h2>How it works</h2>
+                        <p>
+                            The wind system operates on cycles. Each cycle consists of two phases, a hold phase and a transition phase.
+                            The transition phase changes the current wind speed from one value to another, and the hold phase holds that new value.
+                            You can see what phase is currently running above the chart, and the current wind speed next to the current chart point.
+                        </p>
+                        <p>
+                            A cycle is started by assigning random values to phase durations,
+                            assigning the new value the transition phase will transition to, and setting a timer variable to track how much time remains in each phase.
+                            You can see that timer displayed below the chart.
+                            The timer is decremented on each frame depending on how much time passed between frames.
+                            When it reaches zero, a check is made - if the current phase is the transition phase,
+                            the timer is reset and the hold phase begins.
+                            Otherwise, a new cycle is started and the whole process repeats.
+                        </p>
+                    </section>
+                </div>
+
+                <div id="tab_params" class="tab-content active">
+
+                    <section>
+                        <h2>Wind parameters</h2>
+
+                        <div class="double-field">
+                            <label>Speed range</label>
+                            <div class="input-field">
+                                <label>Between</label>
+                                <input type="number" min="-720" max="720" step="1" name="wind.vxRange.min" />
+                            </div>
+                            <div class="input-field">
+                                <label>And</label>
+                                <input type="number" min="-720" max="720" step="1" name="wind.vxRange.max" />
+                            </div>
+                        </div>
+
+                        <div class="double-field">
+                            <label>Hold phase duration range</label>
+                            <div class="input-field">
+                                <label>Between</label>
+                                <input type="number" min="0.1" max="20" step="0.1" name="wind.holdDurRange.min" />
+                            </div>
+                            <div class="input-field">
+                                <label>And</label>
+                                <input type="number" min="0.1" max="20" step="0.1" name="wind.holdDurRange.max" />
+                            </div>
+                        </div>
+
+                        <div class="double-field">
+                            <label>Transition phase duration range</label>
+                            <div class="input-field">
+                                <label>Between</label>
+                                <input type="number" min="0.1" max="20" step="0.1" name="wind.transitionDurRange.min" />
+                            </div>
+                            <div class="input-field">
+                                <label>And</label>
+                                <input type="number" min="0.1" max="20" step="0.1" name="wind.transitionDurRange.max" />
+                            </div>
+                        </div>
+
+                    </section>
+
+                    <section>
+                        <h2>Chart parameters</h2>
+
+                        <div class="input-field">
+                            <label>Font size</label>
+                            <input type="number" name="chart.fontSize" />
+                        </div>
+
+                        <div class="double-field">
+                            <label>Chart area</label>
+                            <div class="input-field">
+                                <label>Chart area height</label>
+                                <input type="number" name="chart.span" />
+                            </div>
+                            <div class="input-field">
+                                <label>Border width</label>
+                                <input type="number" name="chart.boundsWidth" />
+                            </div>
+                        </div>
+
+                        <div class="double-field">
+                            <label>Line style</label>
+                            <div class="input-field">
+                                <label>Line width</label>
+                                <input type="number" name="chart.lineWidth" />
+                            </div>
+                            <div class="input-field">
+                                <label>Point radius</label>
+                                <input type="number" name="chart.pointRadius" />
+                            </div>
+                        </div>
+
+                        <div class="double-field">
+                            <label>Phase colours</label>
+                            <div class="input-field">
+                                <label>Transition</label>
+                                <input type="color" name="chart.transitionColor" />
+                            </div>
+                            <div class="input-field">
+                                <label>Hold</label>
+                                <input type="color" name="chart.holdColor" />
+                            </div>
+                        </div>
+
+                        <div class="double-field">
+                            <label>Background parameters</label>
+                            <div class="input-field">
+                                <label>Width</label>
+                                <input type="number" name="particles.width" />
+                            </div>
+                            <div class="input-field">
+                                <label>Spacing</label>
+                                <input type="number" name="particles.spacing" />
+                            </div>
+                        </div>
+
+                        <div class="input-field">
+                            <label>Background rectangle colour</label>
+                            <input type="color" name="particles.color" />
+                        </div>
+
+                    </section>
+
+                    <p class="text-center">
+                        <button id="btn_reset_params" type="button" class="btn">
+                            Reset to default
+                        </button>
+                    </p>
+
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="canvas-container">
+        <canvas id="cnv" class="fill-parent"></canvas>
+    </div>
+
+    <script src="../js/shared.js"></script>
+
+    <script src="../js/particle-fx/shared/range.js"></script>
+    <script src="../js/particle-fx/shared/color-range.js"></script>
+    <script src="../js/particle-fx/shared/particle-env.js"></script>
+    <script src="../js/particle-fx/shared/wind-system.js"></script>
+    <script src="../js/particle-fx/shared/param-editor.js"></script>
+    <script src="../js/particle-fx/shared/effect-param-storage.js"></script>
+
+    <script src="../js/particle-fx/wind-particle-effect.js"></script>
+
+    <script src="../js/pages/examples.js"></script>
+
+    <!-- function responsible for initializing the effect showcased on this page-->
+    <script>
+        const effectType = WindParticleEffect;
+    </script>
+
+</body>
+</html>

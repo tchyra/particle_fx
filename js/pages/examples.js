@@ -31,8 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // load params from local storage
     var startParams = EffectParamStorage.loadParamsFromLocalStorage(localStorageParamsKey, effectType.getDefaultSimulationParams())
 
-    console.log('start params', startParams);
-
     effect = new effectType('#cnv', startParams);
     editor = new ParamEditor('tab_params', effect);
     editor.onChange = () => {

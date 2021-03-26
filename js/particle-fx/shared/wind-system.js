@@ -18,7 +18,7 @@ class WindSystem {
 
     _rollWind() {
 
-        this.prevVx = this.nextVx || 0;
+        this.prevVx = this.nextVx || this.params.vxRange.roll();
 
         this.nextVx = this.params.vxRange.roll();
         this.transitionDur = this.params.transitionDurRange.roll();

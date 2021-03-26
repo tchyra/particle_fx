@@ -49,19 +49,19 @@ class ParticleEnv {
             throw 'target canvas must be an element or a selector.';
 
         this.parent = this.cnv.parentElement;
-
         this.ctx = this.cnv.getContext('2d');
-        this.updateCanvasSize();
 
-        let resizeCallback = ev => this.updateCanvasSize(ev);
-        window.addEventListener('resize', resizeCallback);
+        this.params = ParticleEnv.mergeParams(this.constructor.getDefaultSimulationParams(), params);
+        this.updateCanvasSize();
 
         this.frameNo = 0;
         this.prevFrameTimestamp = Date.now();
 
-        this.params = ParticleEnv.mergeParams(this.constructor.getDefaultSimulationParams(), params);
         this.start();
         this._reqNextFrame();
+
+        let resizeCallback = ev => this.updateCanvasSize(ev);
+        window.addEventListener('resize', resizeCallback);
     }
 
     updateCanvasSize() {

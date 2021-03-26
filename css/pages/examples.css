@@ -127,7 +127,7 @@
 .input-field {
   display: flex;
   flex-direction: column;
-  margin-top: 32px;
+  margin: 32px 0;
   align-items: center; }
   .input-field > label {
     width: 100%;
