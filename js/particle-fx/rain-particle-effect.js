@@ -102,7 +102,7 @@ class RainParticleEffect extends ParticleEnv {
             }
             else if (p.vy < 0) {
                 // particle is falling up, check if above screen
-                if (p.x - p.vx * this.params.particles.length + p.size < 0)
+                if (p.y - p.vy * this.params.particles.length + p.size < 0)
                     p.y = this.cnvh + p.size; // teleport to bottom of screen
             }
 
