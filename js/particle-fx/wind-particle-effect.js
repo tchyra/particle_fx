@@ -24,7 +24,7 @@ class WindParticleEffect extends ParticleEnv {
                 pointRadius: 4,
                 lineColor: Color.fromHex('#5ff718'),
                 lineWidth: 2,
-                scrollSpeed: 100 // px/s
+                scrollSpeed: 50 // px/s
             }
         };
     }
