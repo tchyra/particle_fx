@@ -248,6 +248,10 @@ canvas.fill-parent {
     }
 }
 
+.no-display {
+    display: none;
+}
+
 @mixin text-align($name) {
     .text-#{$name} {
         text-align: $name;

@@ -57,6 +57,10 @@ class ParticleEnv {
         this.frameNo = 0;
         this.prevFrameTimestamp = Date.now();
 
+        if (typeof this.createCanvasEventHandlers === 'function') {
+            this.createCanvasEventHandlers();
+        }
+
         this.start();
         this._reqNextFrame();
 

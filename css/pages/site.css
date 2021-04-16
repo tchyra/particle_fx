@@ -175,6 +175,9 @@ canvas.fill-parent {
   .bullet:after {
     content: "•"; }
 
+.no-display {
+  display: none; }
+
 .text-left {
   text-align: left; }
 
