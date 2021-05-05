@@ -56,6 +56,7 @@ class ColorRange {
     }
 
     lerp(fraction) {
+        fraction = Math.max(0, Math.min(fraction, 1));
         return new Color(this.rRange.lerp(fraction), this.gRange.lerp(fraction), this.bRange.lerp(fraction));
     }
 }

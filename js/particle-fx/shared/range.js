@@ -27,4 +27,8 @@ class Range {
         else
             return (value - this.min) / this.span;
     }
+
+    static roll(min, max) {
+        return Math.random() * (max - min) + min;
+    }
 }

@@ -1,9 +1,7 @@
 ﻿
 class WavesParticle {
 
-    constructor(x, startY, size, color) {
-        this.x = x;
-        this.startY = startY;
+    constructor(size, color) {
         this.offsetY = 0;
         this.size = size;
         this.mass = 1;
@@ -30,9 +28,15 @@ class WavesParticle {
         this.forceY = 0;
     }
 
-    draw(ctx) {
+    draw(ctx, x, baseY) {
+
         ctx.fillStyle = this.color;
-        ctx.fillRect(this.x - this.size / 2, (this.startY + this.offsetY) - this.size / 2, this.size, this.size);
+        //ctx.fillRect(x - this.size / 2, (baseY + this.offsetY) - this.size / 2, this.size, this.size);
+        ctx.beginPath();
+        ctx.arc(x, baseY + this.offsetY, this.size, 0, 2 * Math.PI, false);
+        ctx.fill();
+
+        return { x, y: baseY + this.offsetY };
     }
 
 }
@@ -42,18 +46,21 @@ class WavesParticleEffect extends ParticleEnv {
     static getDefaultSimulationParams() {
         return {
             particles: {
-                count: 12,
-                size: 20,
-                spacing: 100,
-                colorRange: new ColorRange('#11c5fc', '#115cfc')
+                count: 16,
+                size: 5,
+                spacing: 50,
+                colorRange: new ColorRange('#3adbff', '#0032a0'),
+                countPerRing: 20,
+                ringScaleY: 0.25,
+                colorOffsetYRange: new Range(-50, 50)
             },
             returnSpring: {
                 k: 40,
                 damping: 3
             },
             neighborSpring: {
-                k: 25,
-                damping: 1
+                k: 40,
+                damping: 2
             }
         };
     }
@@ -73,16 +80,16 @@ class WavesParticleEffect extends ParticleEnv {
 
         this.particles = new Array(this.params.particles.count);
 
-        let totalSpacing = (this.params.particles.count - 1) * this.params.particles.spacing;
-        let startX = (this.cnvw - totalSpacing) / 2;
-        let currX = startX;
-        let startY = this.cnvh / 2;
+        let angleRange = new Range(0, Math.PI * 2);
+        this.ringAngleOffsets = new Array(this.params.particles.countPerRing);
 
         // create particles
         for (var i = 0; i < this.params.particles.count; i++) {
 
-            this.particles[i] = new WavesParticle(currX, startY, this.params.particles.size, this.params.particles.colorRange.roll());
-            currX += this.params.particles.spacing;
+            this.particles[i] = new WavesParticle(this.params.particles.size, this.params.particles.colorRange.roll());
+
+            this.ringAngleOffsets[i] = 2;
+            //this.ringAngleOffsets[i] = angleRange.roll();
         }
     }
 
@@ -111,8 +118,67 @@ class WavesParticleEffect extends ParticleEnv {
 
             p.updatePhysics(deltaTimeS);
 
-            p.draw(this.ctx);
+            p.color = this.params.particles.colorRange.lerp(this.params.particles.colorOffsetYRange.getFraction(p.offsetY));
         }
+
+        for (var i = this.particles.length - 1; i >= 0; i--) {
+
+            p = this.particles[i];
+
+            if (i === 0) {
+                p.draw(this.ctx, this.centerX, this.centerY);
+            } else {
+
+                let distFromCenter = i * this.params.particles.spacing;
+
+                let angleCount = this.params.particles.countPerRing;
+                let angleStep = Math.PI * 2 / angleCount;
+                //let angle = this.ringAngleOffsets[i];
+                let angle = angleStep / 2;
+
+                let firstDrawAt = null;
+                let prevDrawAt = null;
+
+                for (var j = 0; j < angleCount; j++) {
+                    let drawAt = p.draw(this.ctx,
+                        this.centerX + Math.sin(angle) * distFromCenter,
+                        this.centerY + Math.cos(angle) * distFromCenter * this.params.particles.ringScaleY
+                    );
+
+                    if (j == 0) firstDrawAt = drawAt;
+
+                    if (prevDrawAt !== null) {
+
+                        this.drawLine(p.color, prevDrawAt, drawAt);
+
+                        if (j === angleCount - 1)
+                            this.drawLine(p.color, drawAt, firstDrawAt);
+                    }
+
+                    prevDrawAt = drawAt;
+
+                    angle += angleStep;
+                }
+
+            }
+
+        }
+    }
+
+    drawLine(color, p1, p2) {
+
+        this.ctx.strokeStyle = color;
+        this.ctx.lineWidth = 2;
+
+        this.ctx.beginPath();
+        this.ctx.moveTo(p1.x, p1.y);
+        this.ctx.lineTo(p2.x, p2.y);
+        this.ctx.stroke();
+    }
+
+    resize() {
+        this.centerX = this.cnvw / 2;
+        this.centerY = this.cnvh / 2;
     }
 
     restart() {
