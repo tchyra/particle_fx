@@ -1,5 +1,5 @@
 ﻿
-class WavesParticle {
+class AudioWavesParticle {
 
     constructor(size, color) {
         this.offsetY = 0;
@@ -86,7 +86,7 @@ class WavesParticleEffect extends ParticleEnv {
         // create particles
         for (var i = 0; i < this.params.particles.count; i++) {
 
-            this.particles[i] = new WavesParticle(this.params.particles.size, this.params.particles.colorRange.roll());
+            this.particles[i] = new AudioWavesParticle(this.params.particles.size, this.params.particles.colorRange.roll());
 
             this.ringAngleOffsets[i] = 2;
             //this.ringAngleOffsets[i] = angleRange.roll();

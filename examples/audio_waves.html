@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link rel="shortcut icon" type="image/x-icon" href="../favicon.ico">
+    <meta charset="utf-8" />
+    <title>Waves particle effect</title>
+    <meta name="viewport" content="width=device-width" />
+
+    <link rel="stylesheet" href="../css/pages/site.css" />
+    <link rel="stylesheet" href="../css/pages/examples.css" />
+
+</head>
+<body>
+
+    <div class="top-bar">
+        <div class="content">
+            <a href="../index.html" class="btn-icon">
+                <img class="icon" src="../img/icons/arrow-left.svg" />
+            </a>
+        </div>
+    </div>
+
+    <div class="sidebar-container no-display">
+
+        <div class="up-indicator">
+            <img class="icon" src="../img/icons/chevron-up.svg" />
+        </div>
+
+        <div class="sidebar">
+
+            <div class="header">
+                <a href="../index.html" class="btn-icon">
+                    <img class="icon" src="../img/icons/arrow-left.svg" />
+                </a>
+                <h1>Audio waves</h1>
+                <button id="btn_fullscreen" type="button" class="btn-icon right">
+                    <img class="icon" src="../img/icons/fullscreen.svg" />
+                </button>
+            </div>
+
+            <div class="tab-contents-container">
+
+                <div class="tabs">
+                    <button type="button" data-target="tab_info">INFO</button>
+                    <button type="button" data-target="tab_params" class="active">PARAMS</button>
+                </div>
+
+
+                <div id="tab_info" class="tab-content">
+                    <section>
+                        <h2>How it works</h2>
+                        <p>
+                            TODO
+                        </p>
+                    </section>
+                </div>
+
+                <div id="tab_params" class="tab-content active">
+
+                    <section>
+                        <h2>Particle parameters (TODO)</h2>
+
+
+
+                    </section>
+
+                    <p class="text-center">
+                        <button id="btn_reset_params" type="button" class="btn">
+                            <img src="../img/icons/restart.svg" class="icon" />
+                            Reset to default
+                        </button>
+                    </p>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="canvas-container">
+        <canvas id="cnv" class="fill-parent"></canvas>
+        <audio id="audio" src="../audio/waterflame-stride.mp3" controls></audio>
+    </div>
+
+    <script src="../js/shared.js"></script>
+
+    <script src="../js/particle-fx/shared/range.js"></script>
+    <script src="../js/particle-fx/shared/color-range.js"></script>
+    <script src="../js/particle-fx/shared/particle-env.js"></script>
+    <script src="../js/particle-fx/shared/wind-system.js"></script>
+    <script src="../js/particle-fx/shared/param-editor.js"></script>
+    <script src="../js/particle-fx/shared/effect-param-storage.js"></script>
+
+    <script src="../js/particle-fx/audio-waves-particle-effect.js"></script>
+
+    <script src="../js/pages/examples.js"></script>
+
+    <!-- function responsible for initializing the effect showcased on this page-->
+    <script>
+        const effectType = AudioWavesParticleEffect;
+    </script>
+
+</body>
+</html>

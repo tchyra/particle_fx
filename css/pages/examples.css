@@ -42,6 +42,14 @@
   left: 0;
   bottom: 0;
   right: 0; }
+  .canvas-container > audio {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 32px;
+    max-width: 640px;
+    width: calc(100% - 64px);
+    margin: 0 auto; }
 
 @media only screen and (max-width: 984px) {
   .top-bar {
