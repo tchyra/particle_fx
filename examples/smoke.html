@@ -20,7 +20,7 @@
         </div>
     </div>
 
-    <div class="sidebar-container no-display">
+    <div class="sidebar-container">
 
         <div class="up-indicator">
             <img class="icon" src="../img/icons/chevron-up.svg" />
@@ -32,7 +32,7 @@
                 <a href="../index.html" class="btn-icon">
                     <img class="icon" src="../img/icons/arrow-left.svg" />
                 </a>
-                <h1>Waves</h1>
+                <h1>Smoke</h1>
                 <button id="btn_fullscreen" type="button" class="btn-icon right">
                     <img class="icon" src="../img/icons/fullscreen.svg" />
                 </button>
@@ -50,17 +50,300 @@
                     <section>
                         <h2>How it works</h2>
                         <p>
-                            TODO
+                            Particles are spawned at a constant rate.
+                            Each wave spawns the same amount of particles, a random distance from a set spawn point below the screen.
+                            Particles are given a starting velocity, starting from a base that changes its angle and magnitude every frame,
+                            and adding a random vector of deviation. Particles move according to their velocity.
+                        </p>
+                        <p>
+                            Particles have a lifespan timer. Each particle decays over time, from full opacity to full transparency.
+                            Once the particle's lifespan expires, or it goes above the screen, or off to either side (if that is enabled),
+                            the particle is removed and no longer considered for updates or drawing.
+                        </p>
+                        <p>
+                            Every frame, each unique pair of particles has its connection considered.
+                            If the particles are close enough to one another, a line is drawn between them, its opacity never exceeding either particle's opacity.
+                            As particles drift further apart, their connection will increase in transparency, and then stop being drawn altogether.
+                        </p>
+                        <p>
+                            There is a set amount of wind streams affecting the particles, which you can see if you enable drawing them in the parameters.
+                            Each stream (also called a ray) has an Y coordinate, a radius (defining an area expanding both below and above the Y coordinate) and a speed.
+                            Each of those properties run on cycles of random duration and change the property from one value to another, linearly (I really need to learn easing functions).
+                            Each cycle is random, but within bounds set in the parameters.
                         </p>
                     </section>
                 </div>
 
                 <div id="tab_params" class="tab-content active">
 
+                    <!--
+                        SMOKE EFFECT PARAMS
+                        {
+                            particles: {
+                                size: 4,
+                                alpha: 150,
+                                dragRange: new Range(0.65, 1),
+                                lifespan: 7,
+                                color: Color.fromHex('#fff')
+                            },
+                            startVel: {
+                                magRange: new Range(200, 300),
+                                magMaxChange: 12,
+                                magDevPerSpawn: 100,
+                                angleRange: new Range(-15, 15),
+                                angleMaxChange: 10,
+                                angleDevPerSpawn: 10
+                            },
+                            spawn: {
+                                interval: 0.25,
+                                particleCount: 6,
+                                maxDisplacement: 10
+                            },
+                            connections: {
+                                cutoffDist: 100,
+                                width: 2,
+                            },
+                            margin: {
+                                top: 40,
+                                left: 40,
+                                right: 40,
+                                bottom: 80,
+                                useSideKillzone: false,
+                            },
+                            wind: {
+                                rayCount: 6,
+                                maxSpeed: 200,
+                                maxYDev: 200,
+                                rayRRange: new Range(40, 120),
+                                maxYDevPerPhase: 75,
+                                maxSpeedDevPerPhase: 75,
+                                maxRDevPerPhase: 20,
+                                phaseDurRange: new Range(0.5, 2),
+                                drawRays: false,
+                            }
+                        }
+                    -->
+
                     <section>
-                        <h2>Particle parameters (TODO)</h2>
+                        <h2>Particle parameters</h2>
+
+                        <div class="input-field">
+                            <label>Size</label>
+                            <input type="number" min="1" max="100" step="1" name="particles.size" />
+                        </div>
+
+                        <div class="input-field">
+                            <label>Color</label>
+                            <input type="color" name="particles.color" />
+                        </div>
+
+                        <div class="input-field">
+                            <label>Lifespan</label>
+                            <input type="number" min="1" max="20" step="1" name="particles.lifespan" />
+                        </div>
+
+                        <div class="double-field">
+                            <label>Drag range</label>
+                            <div class="input-field">
+                                <label>Between</label>
+                                <input type="number" min="0" max="10" step="0.1" name="particles.dragRange.min" />
+                            </div>
+                            <div class="input-field">
+                                <label>And</label>
+                                <input type="number" min="0" max="10" step="0.1" name="particles.dragRange.max" />
+                            </div>
+                        </div>
+
+                    </section>
+
+                    <section>
+
+                        <h2>Base spawn velocity</h2>
+
+                        <div class="double-field">
+                            <label>Magnitude range</label>
+                            <div class="input-field">
+                                <label>Between</label>
+                                <input type="number" min="1" max="1000" step="1" name="startVel.magRange.min" />
+                            </div>
+                            <div class="input-field">
+                                <label>And</label>
+                                <input type="number" min="1" max="1000" step="1" name="startVel.magRange.max" />
+                            </div>
+                        </div>
+
+                        <div class="input-field">
+                            <label>Max magnitude change between spawns</label>
+                            <input type="number" min="0" max="100" step="1" name="startVel.magMaxChange" />
+                        </div>
+
+                        <div class="double-field">
+                            <label>Angle range (degrees)</label>
+                            <div class="input-field">
+                                <label>Between</label>
+                                <input type="number" min="-360" max="360" step="1" name="startVel.angleRange.min" />
+                            </div>
+                            <div class="input-field">
+                                <label>And</label>
+                                <input type="number" min="-360" max="360" step="1" name="startVel.angleRange.max" />
+                            </div>
+                        </div>
+
+                        <div class="input-field">
+                            <label>Max angle change between spawns (degrees)</label>
+                            <input type="number" min="0" max="360" step="1" name="startVel.angleMaxChange" />
+                        </div>
+
+                    </section>
+
+                    <section>
+
+                        <h2>Particle spawning</h2>
+
+                        <div class="input-field">
+                            <label>Spawn interval (seconds)</label>
+                            <input type="number" min="0.16" max="5" step="0.1" name="spawn.interval" />
+                        </div>
+
+                        <div class="input-field">
+                            <label>Count per spawn</label>
+                            <input type="number" min="1" max="20" step="1" name="spawn.particleCount" data-type="int" />
+                        </div>
+
+                        <div class="input-field">
+                            <label>Max displacement from spawnpoint</label>
+                            <input type="number" min="1" max="200" step="1" name="spawn.maxDisplacement" />
+                        </div>
+
+                        <div class="input-field">
+                            <label>Max velocity angle deviation per particle</label>
+                            <input type="number" min="-89" max="89" step="1" name="startVel.angleDevPerSpawn" />
+                        </div>
+
+                        <div class="input-field">
+                            <label>Max velocity magnitude deviation per particle</label>
+                            <input type="number" min="0" max="200" step="1" name="startVel.magDevPerSpawn" />
+                        </div>
+
+                    </section>
+
+                    <section>
+
+                        <h2>Connections</h2>
+
+                        <div class="input-field">
+                            <label>Connection cutoff distance</label>
+                            <input type="number" min="0" max="1000" step="1" name="connections.cutoffDist" />
+                        </div>
+
+                        <div class="input-field">
+                            <label>Connection width</label>
+                            <input type="number" min="0" max="1000" step="1" name="connections.width" />
+                        </div>
+
+                        <div class="input-field">
+                            <label>Color</label>
+                            <input type="color" name="connections.color" />
+                        </div>
+
+                    </section>
+
+                    <section>
+
+                        <h2>Wind</h2>
+
+                        <label class="checkbox-field">
+                            <input type="checkbox" name="wind.drawRays" />
+                            <span>Draw rays</span>
+                        </label>
+
+                        <div class="input-field">
+                            <label>Ray count</label>
+                            <input type="number" min="1" max="20" step="1" name="wind.rayCount" />
+                        </div>
+
+                        <div class="double-field">
+                            <label>Ray radius range</label>
+                            <div class="input-field">
+                                <label>Between</label>
+                                <input type="number" min="1" max="1000" step="1" name="wind.rayRRange.min" />
+                            </div>
+                            <div class="input-field">
+                                <label>And</label>
+                                <input type="number" min="1" max="1000" step="1" name="wind.rayRRange.max" />
+                            </div>
+                        </div>
+
+                        <div class="input-field">
+                            <label>Max wind speed</label>
+                            <input type="number" min="0" max="1000" step="1" name="wind.maxSpeed" />
+                        </div>
+
+                        <div class="input-field">
+                            <label>Max ray Y deviation from start Y</label>
+                            <input type="number" min="0" max="1000" step="1" name="wind.maxYDev" />
+                        </div>
+
+                        <div class="input-field">
+                            <label>Max ray Y deviation per phase</label>
+                            <input type="number" min="0" max="1000" step="1" name="wind.maxYDevPerPhase" />
+                        </div>
+
+                        <div class="input-field">
+                            <label>Max ray wind speed deviation per phase</label>
+                            <input type="number" min="0" max="1000" step="1" name="wind.maxSpeedDevPerPhase" />
+                        </div>
+
+                        <div class="input-field">
+                            <label>Max ray radius deviation per phase</label>
+                            <input type="number" min="0" max="1000" step="1" name="wind.maxRDevPerPhase" />
+                        </div>
+
+                        <div class="double-field">
+                            <label>Phase duration range (seconds)</label>
+                            <div class="input-field">
+                                <label>Between</label>
+                                <input type="number" min="0.1" max="20" step="0.1" name="wind.phaseDurRange.min" />
+                            </div>
+                            <div class="input-field">
+                                <label>And</label>
+                                <input type="number" min="0.1" max="20" step="0.1" name="wind.phaseDurRange.max" />
+                            </div>
+                        </div>
+
+                    </section>
 
 
+                    <section>
+
+                        <h2>Screen margins</h2>
+
+                        <div class="double-field">
+                            <div class="input-field">
+                                <label>Left</label>
+                                <input type="number" min="0" max="1000" step="1" name="margin.left" />
+                            </div>
+                            <div class="input-field">
+                                <label>Right</label>
+                                <input type="number" min="0" max="1000" step="1" name="margin.right" />
+                            </div>
+                        </div>
+
+                        <div class="double-field">
+                            <div class="input-field">
+                                <label>Top</label>
+                                <input type="number" min="0" max="1000" step="1" name="margin.top" />
+                            </div>
+                            <div class="input-field">
+                                <label>Bottom</label>
+                                <input type="number" min="0" max="1000" step="1" name="margin.bottom" />
+                            </div>
+                        </div>
+
+                        <label class="checkbox-field">
+                            <input type="checkbox" name="margin.useSideKillzone" />
+                            <span>Kill particles that go off-screen to the left or right</span>
+                        </label>
 
                     </section>
 

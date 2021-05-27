@@ -24,6 +24,7 @@ let els = {
     topBar: '.top-bar'
 };
 
+var snowEffect, rainEffect, volcanoEffect, smokeEffect;
 
 document.addEventListener('DOMContentLoaded', () => {
     initEls(els);
@@ -58,7 +59,7 @@ function initTOC() {
 
             let liTargetBCR = liTargetSection.getBoundingClientRect();
             let top = document.scrollingElement.scrollTop + liTargetBCR.top - scrollToSpacingTop;
-            
+
             document.scrollingElement.scrollTo({ top, behavior: 'smooth' });
         });
 
@@ -68,7 +69,7 @@ function initTOC() {
 
 function initExampleFx() {
 
-    let snowEffect = new SnowParticleEffect('#cnv_snow', {
+    snowEffect = new SnowParticleEffect('#cnv_snow', {
         particles: {
             count: 8,
             sizeRange: new Range(2, 4),
@@ -79,7 +80,7 @@ function initExampleFx() {
         }
     });
 
-    let rainEffect = new RainParticleEffect('#cnv_rain', {
+    rainEffect = new RainParticleEffect('#cnv_rain', {
         particles: {
             count: 12,
             sizeRange: new Range(1, 2),
@@ -91,7 +92,7 @@ function initExampleFx() {
         }
     });
 
-    let volcanoEffect = new VolcanoParticleEffect('#cnv_volcano', {
+    volcanoEffect = new VolcanoParticleEffect('#cnv_volcano', {
         particles: {
             maxCount: 20,
             sizeRange: new Range(3, 5),
@@ -101,10 +102,45 @@ function initExampleFx() {
         gravityForce: 80,
         spYFraction: 0.9
     });
+
+    smokeEffect = new SmokeParticleEffect('#cnv_smoke', {
+        particles: {
+            size: 2,
+            lifespan: 3,
+        },
+        startVel: {
+            magRange: new Range(75, 105),
+            magDevPerSpawn: 40,
+            angleDevPerSpawn: 8
+        },
+        spawn: {
+            interval: 0.3,
+            particleCount: 4,
+            maxDisplacement: 20
+        },
+        connections: {
+            width: 1,
+            cutoffDist: 40
+        },
+        margin: {
+            top: 10,
+            left: 10,
+            right: 10,
+            bottom: 10,
+            useSideKillzone: true
+        },
+        wind: {
+            rayCount: 3,
+            maxSpeed: 50,
+            rayRRange: new Range(10, 40),
+            maxYDev: 50,
+            maxYDevPerPhase: 10
+        }
+    });
 }
 
 function initDrawer() {
-    
+
 }
 
 function toggleSidebar(ev) {

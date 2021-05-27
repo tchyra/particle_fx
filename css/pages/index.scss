@@ -175,10 +175,11 @@
 // PARTICE FX EXAMPLES
 //
 
-.grid-3 {
+.grid-2x2 {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     grid-column-gap: 32px;
+    grid-row-gap: 32px;
 }
 
 .example-container {

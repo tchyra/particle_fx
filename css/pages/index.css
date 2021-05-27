@@ -118,10 +118,11 @@
     grid-template-columns: 100% !important;
     grid-row-gap: 16px !important; } }
 
-.grid-3 {
+.grid-2x2 {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
-  grid-column-gap: 32px; }
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-column-gap: 32px;
+  grid-row-gap: 32px; }
 
 .example-container {
   display: inline-block;

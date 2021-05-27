@@ -9,12 +9,18 @@ class ParamEditorAttachment {
     static createAttachmentFor(parent, propName, input) {
         let obj = parent[propName];
 
+        let type = null;
+
         if (typeof obj === 'number')
-            return new ParamEditorNumberAttachment(parent, propName, input);
+            type = ParamEditorNumberAttachment;
+        else if (typeof obj === 'boolean')
+            type = ParamEditorBooleanAttachment;
         else if (typeof Color === 'function' && obj instanceof Color)
-            return new ParamEditorColorAttachment(parent, propName, input);
+            type = ParamEditorColorAttachment;
         else
             throw new Error('Cannot create an attachment for ', obj);
+
+        return new type(parent, propName, input);
     }
 
     constructor(parent, propName, input) {
@@ -54,6 +60,21 @@ class ParamEditorNumberAttachment extends ParamEditorAttachment {
 
     copyFromInputToEffect() {
         this.valueInEffect = this.input.valueAsNumber;
+    }
+}
+
+class ParamEditorBooleanAttachment extends ParamEditorAttachment {
+
+    constructor(parent, propName, input) {
+        super(parent, propName, input);
+    }
+
+    copyFromEffectToInput() {
+        this.input.checked = this.valueInEffect;
+    }
+
+    copyFromInputToEffect() {
+        this.valueInEffect = this.input.checked;
     }
 }
 

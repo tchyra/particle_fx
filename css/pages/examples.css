@@ -145,13 +145,14 @@
   .input-field input {
     background-color: transparent;
     background: none;
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     font-family: Consolas, monospace;
     font-size: 1rem;
     color: rgba(255, 255, 255, 0.65);
     padding: 4px;
     box-sizing: border-box;
-    width: 100%; }
+    width: 100%;
+    transition: border-color ease 0.15s; }
     .input-field input[type=number] {
       text-align: right;
       -moz-appearance: none; }
@@ -170,6 +171,8 @@
     .input-field input.modified {
       border-style: dotted;
       border-color: #ffd800; }
+    .input-field input:hover {
+      border-color: rgba(255, 255, 255, 0.2); }
   .input-field + .input-field {
     margin-top: 8px; }
 
@@ -192,3 +195,19 @@
       margin-right: 16px; }
     .double-field > .input-field:last-child {
       margin-left: 16px; }
+
+.checkbox-field {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 32px 0;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: border-color ease 0.15s;
+  cursor: pointer; }
+  .checkbox-field > [type=checkbox] {
+    margin: 0;
+    padding: 0;
+    margin-right: 12px; }
+  .checkbox-field:hover {
+    border-color: rgba(255, 255, 255, 0.2); }

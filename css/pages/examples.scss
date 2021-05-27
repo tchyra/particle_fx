@@ -200,6 +200,9 @@ $tab-corner-radius: 8px;
     }
 }
 
+$c-input-border: rgba(#fff, 0.1);
+$c-input-border-hover: rgba(#fff, 0.2);
+$dur-input-hover: 0.15s;
 
 .input-field {
     display: flex;
@@ -217,13 +220,14 @@ $tab-corner-radius: 8px;
     input {
         background-color: transparent;
         background: none;
-        border: 1px solid $c-border-sec;
+        border: 1px solid $c-input-border;
         font-family: Consolas, monospace;
         font-size: $font-size-body;
         color: $c-text-lght-sec;
         padding: 4px;
         box-sizing: border-box;
         width: 100%;
+        transition: border-color ease $dur-input-hover;
 
         &[type=number] {
             text-align: right;
@@ -254,6 +258,10 @@ $tab-corner-radius: 8px;
         &.modified {
             border-style: dotted;
             border-color: $c-accent;
+        }
+
+        &:hover {
+            border-color: $c-input-border-hover;
         }
     }
 
@@ -289,5 +297,26 @@ $tab-corner-radius: 8px;
         &:last-child {
             margin-left: $spacing;
         }
+    }
+}
+
+.checkbox-field {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 32px 0;
+    padding: 12px;
+    border: 1px solid rgba(#fff, 0.05);
+    transition: border-color ease $dur-input-hover;
+    cursor: pointer;
+
+    > [type=checkbox] {
+        margin: 0;
+        padding: 0;
+        margin-right: 12px;
+    }
+
+    &:hover {
+        border-color: $c-input-border-hover;
     }
 }

@@ -10,9 +10,24 @@ class Color {
     static fromHex(hex) {
 
         let offset = hex.startsWith('#') ? 1 : 0;
-        let r = parseInt('0x' + hex.substr(offset, 2));
-        let g = parseInt('0x' + hex.substr(offset + 2, 2));
-        let b = parseInt('0x' + hex.substr(offset + 4, 2));
+
+        let r, g, b;
+
+        if (hex.length > 4) {
+
+            r = parseInt('0x' + hex.substr(offset, 2));
+            g = parseInt('0x' + hex.substr(offset + 2, 2));
+            b = parseInt('0x' + hex.substr(offset + 4, 2));
+
+        } else {
+
+            let dup = c => c + c;
+
+            r = parseInt('0x' + dup(hex.substr(offset + 0, 1)));
+            g = parseInt('0x' + dup(hex.substr(offset + 1, 1)));
+            b = parseInt('0x' + dup(hex.substr(offset + 2, 1)));
+
+        }
 
         return new Color(r, g, b);
     }
